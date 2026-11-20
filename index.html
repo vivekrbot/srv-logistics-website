@@ -21,8 +21,8 @@
       <h1>Your cargo. <em>Our ocean.</em><br>One integrated global network.</h1>
       <p class="lead">From Jebel Ali to Rotterdam, Chennai to Shanghai, Santos to Sydney — SRV moves containers on 16 weekly liner services with end-to-end logistics, customs and real-time visibility.</p>
       <div class="hero-actions">
-        <a href="quote.html" class="btn btn-primary">Get an instant quote</a>
-        <a href="tracking.html" class="btn btn-ghost-light">Track a shipment</a>
+        <a href="quote" class="btn btn-primary">Get an instant quote</a>
+        <a href="tracking" class="btn btn-ghost-light">Track a shipment</a>
       </div>
     </div>
     <div class="waves" aria-hidden="true">
@@ -40,14 +40,14 @@
           <button data-tab="sched" role="tab" aria-selected="false"><span data-icon="calendar"></span>Sailing Schedules</button>
           <button data-tab="quote" role="tab" aria-selected="false"><span data-icon="dollar"></span>Instant Quote</button>
         </div>
-        <form class="qt-panel active" id="qt-track" action="tracking.html" method="get" novalidate>
+        <form class="qt-panel active" id="qt-track" action="tracking" method="get" novalidate>
           <div class="qt-row two">
             <div class="field"><label for="qtId">Container, Bill of Lading or Booking number</label>
               <input class="input mono" id="qtId" name="id" placeholder="Enter container, B/L or booking number" autocomplete="off" data-req></div>
             <button class="btn btn-primary" type="submit">Track</button>
           </div>
         </form>
-        <form class="qt-panel" id="qt-sched" action="schedules.html" method="get" novalidate>
+        <form class="qt-panel" id="qt-sched" action="schedules" method="get" novalidate>
           <div class="qt-row">
             <div class="field"><label for="qsFrom">From (port of loading)</label><select class="input" id="qsFrom" name="from" data-req></select></div>
             <div class="field"><label for="qsTo">To (port of discharge)</label><select class="input" id="qsTo" name="to" data-req></select></div>
@@ -55,7 +55,7 @@
             <button class="btn btn-primary" type="submit">Find sailings</button>
           </div>
         </form>
-        <form class="qt-panel" id="qt-quote" action="quote.html" method="get" novalidate>
+        <form class="qt-panel" id="qt-quote" action="quote" method="get" novalidate>
           <div class="qt-row">
             <div class="field"><label for="qqFrom">Origin port</label><select class="input" id="qqFrom" name="from" data-req></select></div>
             <div class="field"><label for="qqTo">Destination port</label><select class="input" id="qqTo" name="to" data-req></select></div>
@@ -102,7 +102,7 @@
             <li><span data-icon="checkCircle"></span><span><strong>Chennai Port, India:</strong> vessel and network operations, documentation, customer care and technology.</span></li>
             <li><span data-icon="checkCircle"></span><span><strong>Regional hubs:</strong> Singapore (APAC), Rotterdam (Europe) and Newark, NJ (Americas).</span></li>
           </ul>
-          <a class="link-arrow" href="about.html">More about SRV</a>
+          <a class="link-arrow" href="about">More about SRV</a>
         </div>
         <div class="grid" style="gap:20px" id="hubCards"></div>
       </div>
@@ -115,7 +115,7 @@
       <div class="section-head"><span class="eyebrow">Global network</span><h2>32 countries. 55 ports. 16 weekly services.</h2><p class="lead">Each line on the map is an SRV liner service; each dot is a port we call at or an office we run. Select a point for details.</p></div>
       <div id="homeMap" class="map dark" style="height:480px"></div>
       <div class="chips" id="svcLegend" style="margin-top:18px"></div>
-      <div style="margin-top:28px"><a class="btn btn-primary" href="network.html">Explore ports &amp; offices</a></div>
+      <div style="margin-top:28px"><a class="btn btn-primary" href="network">Explore ports &amp; offices</a></div>
     </div>
   </section>
 
@@ -137,7 +137,7 @@
     <div class="container">
       <div class="section-head"><span class="eyebrow">Leadership</span><h2>Guided by experience, governed with care</h2></div>
       <div class="grid g-2" id="leaderTeaser"></div>
-      <div style="margin-top:28px"><a class="link-arrow" href="leadership.html">Meet the full Board of Directors</a></div>
+      <div style="margin-top:28px"><a class="link-arrow" href="leadership">Meet the full Board of Directors</a></div>
     </div>
   </section>
 
@@ -154,7 +154,7 @@
     <div class="container">
       <div class="cta-band">
         <div><h2>Ready to ship with SRV?</h2><p>Get a price and a confirmed sailing in under two minutes.</p></div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn btn-light" href="quote.html">Get a quote</a><a class="btn btn-ghost-light" href="contact.html">Talk to sales</a></div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn btn-light" href="quote">Get a quote</a><a class="btn btn-ghost-light" href="contact">Talk to sales</a></div>
       </div>
     </div>
   </section>

@@ -43,7 +43,7 @@ SRV.init = function () {
     const res = SRV.sailings(o, d, from, weeks);
     current = res;
     const out = $('#results');
-    if (!res.length) { out.innerHTML = `<div class="alert warn">${icon('alert')}<div>No routing found between these ports. Please <a href="contact.html">contact our sales team</a> for a tailored solution.</div></div>`; $('#routeMapWrap').style.display = 'none'; return; }
+    if (!res.length) { out.innerHTML = `<div class="alert warn">${icon('alert')}<div>No routing found between these ports. Please <a href="contact">contact our sales team</a> for a tailored solution.</div></div>`; $('#routeMapWrap').style.display = 'none'; return; }
     const r = res[0].route; const O = SRV.port(o), Dp = SRV.port(d);
     out.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:16px">
         <div><h2 style="font-size:1.5rem;margin:0">${esc(O.city)} → ${esc(Dp.city)}</h2><div class="muted small">${res.length} sailings · ${r.direct ? 'Direct service' : `Transhipment via ${r.tranship.map((t) => SRV.port(t).city).join(', ')}`} · ~${SRV.num(r.nm)} nautical miles</div></div>
@@ -64,7 +64,7 @@ SRV.init = function () {
             <div class="table-wrap" style="margin-top:10px"><table class="table"><thead><tr><th>Service</th><th>Load</th><th>Discharge</th><th>Vessel</th><th>Calls en route</th></tr></thead><tbody>${s.legs.map(legLine).join('')}</tbody></table></div></details>
         </div>
         <div class="no-print" style="display:flex;flex-direction:column;gap:8px;min-width:150px">
-          ${s.cutoffDoc < SRV.today() ? '<span class="badge red">Closed for booking</span>' : `<a class="btn btn-primary btn-sm" href="quote.html?from=${o}&to=${d}&date=${SRV.isoDate(s.etd)}">Book this sailing</a>`}
+          ${s.cutoffDoc < SRV.today() ? '<span class="badge red">Closed for booking</span>' : `<a class="btn btn-primary btn-sm" href="quote?from=${o}&to=${d}&date=${SRV.isoDate(s.etd)}">Book this sailing</a>`}
           ${i === 0 ? '<span class="badge green" style="align-self:flex-start">Earliest</span>' : ''}${s.transit === Math.min(...res.map((x) => x.transit)) ? '<span class="badge teal" style="align-self:flex-start">Fastest</span>' : ''}
         </div></div>`).join('') +
       `<p class="tiny muted" style="margin-top:16px">Schedules are indicative and subject to change due to weather, port congestion or operational requirements. Cut-off times are local to the port of loading.</p>`;

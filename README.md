@@ -10,13 +10,15 @@ Corporate website and digital tools for **SRV Logistics and Shipping Corporation
 
 It is a static site with no build step and no dependencies to install.
 
-- **Quickest:** double-click `index.html`.
-- **Recommended (local web server):**
-  ```bash
-  npx serve .            # or
-  python -m http.server 8080
-  ```
-  Then open http://localhost:8080.
+**Live site:** https://www.srvsnl.com (GitHub Pages, deployed automatically on every push to `main`).
+
+The site uses **clean URLs** (`/about`, `/tracking?id=…`), with no `.html` in links. GitHub Pages resolves these automatically. To preview locally, use a server that supports clean URLs:
+
+```bash
+npx serve .
+```
+
+Then open http://localhost:3000. Double-clicking `index.html` or running `python -m http.server` will open the home page, but links between pages won't resolve.
 
 Maps (Leaflet + Esri basemaps) and web fonts load from CDNs, so they need an internet connection. Everything else works offline, and the pages show a fallback message where a map would be.
 

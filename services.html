@@ -14,7 +14,7 @@
 <main id="main">
   <section class="page-hero">
     <div class="container">
-      <div class="crumbs"><a href="index.html">Home</a> / Services</div>
+      <div class="crumbs"><a href="./">Home</a> / Services</div>
       <h1>Shipping &amp; logistics services</h1>
       <p>One partner from factory gate to customer door: ocean, inland, customs, warehousing and digital tools, all on a single booking.</p>
     </div>
@@ -58,7 +58,7 @@
   </section>
 
   <section class="section-sm" style="padding-bottom:88px">
-    <div class="container"><div class="cta-band"><div><h2>Have a shipment in mind?</h2><p>Get an instant all-in price with a confirmed weekly sailing.</p></div><a class="btn btn-light" href="quote.html">Get a quote</a></div></div>
+    <div class="container"><div class="cta-band"><div><h2>Have a shipment in mind?</h2><p>Get an instant all-in price with a confirmed weekly sailing.</p></div><a class="btn btn-light" href="quote">Get a quote</a></div></div>
   </section>
 </main>
 <script src="assets/js/data.js"></script>
@@ -90,7 +90,7 @@ SRV.init = function () {
       <div class="icon-badge ${['', 'teal', 'orange'][i % 3]}" style="width:72px;height:72px;margin:0">${icon(ic)}</div>
       <div><h2 style="font-size:1.6rem">${t}</h2><p class="lead" style="font-size:1.02rem">${d}</p>
       <ul class="feature-list" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">${pts.map((p) => `<li>${icon('checkCircle')}<span>${p}</span></li>`).join('')}</ul>
-      <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-primary btn-sm" href="quote.html">Get a quote</a><a class="btn btn-outline btn-sm" href="contact.html?topic=${encodeURIComponent(t)}">Talk to a specialist</a></div></div></div>`).join('');
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-primary btn-sm" href="quote">Get a quote</a><a class="btn btn-outline btn-sm" href="contact?topic=${encodeURIComponent(t)}">Talk to a specialist</a></div></div></div>`).join('');
 
   $('#linerGrid').innerHTML = D.SERVICES.map((s) => {
     const ports = s.rotation.filter((k) => k[0] !== '~');
@@ -98,11 +98,11 @@ SRV.init = function () {
     const m = SRV.SVC_META[s.code];
     return `<div class="card"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:8px"><span class="badge" style="background:${s.color};color:#fff">${s.code}</span><span class="small muted">Weekly · ${SRV.DOW[s.day]} · ~${m.roundDays}-day round trip</span></div>
       <h3 style="margin-bottom:6px">${esc(s.name)}</h3><p class="muted small">${esc(s.desc)}</p>
-      <div class="small" style="line-height:1.9">${uniq.map((p) => `<a href="network.html#${SRV.port(p).cc}" title="${esc(SRV.portLabel(p))}">${esc(SRV.port(p).city)}</a>`).join(' → ')}</div>
-      <div style="margin-top:14px"><a class="link-arrow small" href="schedules.html?from=${uniq[0]}&to=${uniq[uniq.length - 1]}">View sailings</a></div></div>`;
+      <div class="small" style="line-height:1.9">${uniq.map((p) => `<a href="network#${SRV.port(p).cc}" title="${esc(SRV.portLabel(p))}">${esc(SRV.port(p).city)}</a>`).join(' → ')}</div>
+      <div style="margin-top:14px"><a class="link-arrow small" href="schedules?from=${uniq[0]}&to=${uniq[uniq.length - 1]}">View sailings</a></div></div>`;
   }).join('');
 
-  $('#eqTable').innerHTML = D.CONTAINERS.map((c) => `<tr><td><span class="badge">${c.code}</span></td><td><strong>${esc(c.name)}</strong>${c.reefer ? ' <span class="badge teal">Reefer</span>' : ''}</td><td>${c.teu}</td><td>${SRV.num(c.maxKg)} kg</td><td>${c.cbm ? c.cbm + ' m³' : 'Open / OOG'}</td><td><a class="small" href="quote.html?type=${c.code}">Quote →</a></td></tr>`).join('');
+  $('#eqTable').innerHTML = D.CONTAINERS.map((c) => `<tr><td><span class="badge">${c.code}</span></td><td><strong>${esc(c.name)}</strong>${c.reefer ? ' <span class="badge teal">Reefer</span>' : ''}</td><td>${c.teu}</td><td>${SRV.num(c.maxKg)} kg</td><td>${c.cbm ? c.cbm + ' m³' : 'Open / OOG'}</td><td><a class="small" href="quote?type=${c.code}">Quote →</a></td></tr>`).join('');
 
   const I = [['leaf', 'Agriculture & Food'], ['snow', 'Pharma & Healthcare'], ['box', 'Retail & Fashion'], ['gauge', 'Automotive'], ['crane', 'Energy & Projects'], ['layers', 'Chemicals'], ['chart', 'Electronics & High-tech'], ['building', 'Construction Materials']];
   $('#industries').innerHTML = I.map(([ic, t]) => `<div class="card hover" style="text-align:center"><div class="icon-badge teal" style="margin:0 auto 14px">${icon(ic)}</div><h4 style="margin:0">${t}</h4></div>`).join('');

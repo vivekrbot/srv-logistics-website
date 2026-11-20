@@ -25,7 +25,7 @@ SRV.init = function () {
         <li>${icon('checkCircle')}<span>Re-use saved quotes and convert them into bookings</span></li>
         <li>${icon('checkCircle')}<span>Follow your containers on a single dashboard</span></li>
         <li>${icon('checkCircle')}<span>Keep track of enquiries sent to SRV offices</span></li></ul>
-        <a class="link-arrow" href="quote.html">Or get a quote without signing in</a></div></div>`;
+        <a class="link-arrow" href="quote">Or get a quote without signing in</a></div></div>`;
     $('#siForm').addEventListener('submit', (e) => {
       e.preventDefault(); if (!SRV.validate(e.target)) return;
       const d = SRV.formData(e.target);
@@ -42,7 +42,7 @@ SRV.init = function () {
     const enq = SRV.store.get('enquiries', []); const apps = SRV.store.get('applications', []);
     const active = bookings.filter((b) => !['Cancelled', 'Sailed'].includes(SRV.bookingStatus(b))).length;
     $('#hello').textContent = `Welcome, ${p.name.split(' ')[0]}`;
-    $('#heroActions').innerHTML = `<a class="btn btn-primary" href="quote.html">${icon('send')}New booking</a>`;
+    $('#heroActions').innerHTML = `<a class="btn btn-primary" href="quote">${icon('send')}New booking</a>`;
     app.innerHTML = `
       <div class="grid g-4" style="margin-bottom:28px">
         <div class="kpi"><div class="v">${active}</div><div class="l">Active bookings</div></div>
@@ -61,11 +61,11 @@ SRV.init = function () {
 
   function tBookings() {
     const list = SRV.store.get('bookings', []);
-    $('#tabBody').innerHTML = !list.length ? empty('calendar', 'No bookings yet.', '<a class="btn btn-primary" href="quote.html">Make your first booking</a>') :
+    $('#tabBody').innerHTML = !list.length ? empty('calendar', 'No bookings yet.', '<a class="btn btn-primary" href="quote">Make your first booking</a>') :
       `<div class="table-wrap"><table class="table"><thead><tr><th>Reference</th><th>Route</th><th>Sailing</th><th>Cargo</th><th>Total</th><th>Status</th><th></th></tr></thead><tbody>${list.map((b) => {
         const st = SRV.bookingStatus(b);
         return `<tr><td class="mono"><strong>${b.ref}</strong><div class="tiny muted">${SRV.fmtDate(b.createdAt)}</div></td><td>${route(b.from, b.to)}</td><td class="small">ETD ${SRV.fmtDate(SRV.parseISO(b.etd))}<br>${esc(b.vessel)} <span class="mono tiny">${b.voyage}</span></td><td class="small">${esc(b.desc)}<br><span class="muted">${esc(b.commodity)}</span></td><td><strong>${SRV.money(b.total)}</strong></td><td>${statusBadge(st)}</td>
-          <td class="nowrap"><a class="btn btn-outline btn-sm" href="tracking.html?id=${b.ref}">Track</a> ${['Cancelled', 'Sailed'].includes(st) ? '' : `<button class="btn btn-sm" style="color:var(--red-600)" data-cancel="${b.ref}">Cancel</button>`}</td></tr>`;
+          <td class="nowrap"><a class="btn btn-outline btn-sm" href="tracking?id=${b.ref}">Track</a> ${['Cancelled', 'Sailed'].includes(st) ? '' : `<button class="btn btn-sm" style="color:var(--red-600)" data-cancel="${b.ref}">Cancel</button>`}</td></tr>`;
       }).join('')}</tbody></table></div>`;
     $$('[data-cancel]').forEach((btn) => btn.addEventListener('click', () => {
       if (!confirm(`Cancel booking ${btn.dataset.cancel}? Cancellation fees may apply after equipment release.`)) return;
@@ -76,11 +76,11 @@ SRV.init = function () {
 
   function tQuotes() {
     const list = SRV.store.get('quotes', []); const today = SRV.isoDate(new Date());
-    $('#tabBody').innerHTML = !list.length ? empty('dollar', 'No saved quotes.', '<a class="btn btn-primary" href="quote.html">Get a quote</a>') :
+    $('#tabBody').innerHTML = !list.length ? empty('dollar', 'No saved quotes.', '<a class="btn btn-primary" href="quote">Get a quote</a>') :
       `<div class="table-wrap"><table class="table"><thead><tr><th>Quote</th><th>Route</th><th>Cargo</th><th>Transit</th><th>Total</th><th>Valid until</th><th></th></tr></thead><tbody>${list.map((q) => `<tr>
         <td class="mono"><strong>${q.ref}</strong></td><td>${route(q.from, q.to)}</td><td class="small">${esc(q.desc)}</td><td>${q.transit} days</td><td><strong>${SRV.money(q.total)}</strong></td>
         <td>${q.validUntil < today ? '<span class="badge red">Expired</span>' : SRV.fmtDate(SRV.parseISO(q.validUntil))}</td>
-        <td class="nowrap"><a class="btn btn-primary btn-sm" href="quote.html?from=${q.from}&to=${q.to}&date=${q.date}${q.mode === 'FCL' ? '&type=' + q.type : ''}">${q.validUntil < today ? 'Re-quote' : 'Book'}</a> <button class="btn btn-sm" data-delq="${q.ref}" aria-label="Delete quote ${q.ref}">${icon('trash')}</button></td></tr>`).join('')}</tbody></table></div>`;
+        <td class="nowrap"><a class="btn btn-primary btn-sm" href="quote?from=${q.from}&to=${q.to}&date=${q.date}${q.mode === 'FCL' ? '&type=' + q.type : ''}">${q.validUntil < today ? 'Re-quote' : 'Book'}</a> <button class="btn btn-sm" data-delq="${q.ref}" aria-label="Delete quote ${q.ref}">${icon('trash')}</button></td></tr>`).join('')}</tbody></table></div>`;
     $$('[data-delq]').forEach((b) => b.addEventListener('click', () => { SRV.store.set('quotes', SRV.store.get('quotes', []).filter((q) => q.ref !== b.dataset.delq)); SRV.toast('Quote deleted.'); dashboard(); }));
   }
 
@@ -92,7 +92,7 @@ SRV.init = function () {
       `<div class="table-wrap"><table class="table"><thead><tr><th>Reference</th><th>Route</th><th>Status</th><th>ETA</th><th>Progress</th><th></th></tr></thead><tbody>${rows.map(({ id, s }) => {
         const label = s.status ? s.status.label : SRV.bookingStatus(s.booking); const pct = s.status ? s.status.pct : 5;
         return `<tr><td class="mono"><strong>${esc(id)}</strong></td><td>${route(s.route.origin, s.route.destination)}</td><td class="small">${esc(label)}</td><td>${SRV.fmtDate(s.sail.eta)}</td><td style="min-width:120px"><div class="progress"><span style="width:${pct}%"></span></div><div class="tiny muted">${pct}%</div></td>
-          <td class="nowrap"><a class="btn btn-outline btn-sm" href="tracking.html?id=${encodeURIComponent(id)}">Details</a> <button class="btn btn-sm" data-delw="${esc(id)}" aria-label="Stop tracking ${esc(id)}">${icon('trash')}</button></td></tr>`;
+          <td class="nowrap"><a class="btn btn-outline btn-sm" href="tracking?id=${encodeURIComponent(id)}">Details</a> <button class="btn btn-sm" data-delw="${esc(id)}" aria-label="Stop tracking ${esc(id)}">${icon('trash')}</button></td></tr>`;
       }).join('')}</tbody></table></div>`);
     $('#addW').addEventListener('submit', (e) => {
       e.preventDefault(); if (!SRV.validate(e.target)) return;
@@ -106,8 +106,8 @@ SRV.init = function () {
   function tEnq() {
     const enq = SRV.store.get('enquiries', []), apps = SRV.store.get('applications', []);
     $('#tabBody').innerHTML = `<div class="grid g-2">
-      <div class="panel"><div class="panel-head"><h3>Enquiries</h3><a class="small" href="contact.html">New enquiry →</a></div><div class="panel-body">${enq.length ? enq.map((q) => `<div class="price-row"><span><strong class="mono">${q.ticket}</strong> · ${esc(q.type)}<br><span class="tiny muted">${esc(q.office)} · ${SRV.fmtDateTime(q.at)}</span></span><span class="badge amber">Open</span></div>`).join('') : '<p class="muted small">No enquiries yet.</p>'}</div></div>
-      <div class="panel"><div class="panel-head"><h3>Job applications</h3><a class="small" href="careers.html">Careers →</a></div><div class="panel-body">${apps.length ? apps.map((a) => `<div class="price-row"><span><strong>${esc(a.title)}</strong><br><span class="tiny muted mono">${a.ref} · ${SRV.fmtDate(a.at)}</span></span><span class="badge">Under review</span></div>`).join('') : '<p class="muted small">No applications yet.</p>'}</div></div></div>`;
+      <div class="panel"><div class="panel-head"><h3>Enquiries</h3><a class="small" href="contact">New enquiry →</a></div><div class="panel-body">${enq.length ? enq.map((q) => `<div class="price-row"><span><strong class="mono">${q.ticket}</strong> · ${esc(q.type)}<br><span class="tiny muted">${esc(q.office)} · ${SRV.fmtDateTime(q.at)}</span></span><span class="badge amber">Open</span></div>`).join('') : '<p class="muted small">No enquiries yet.</p>'}</div></div>
+      <div class="panel"><div class="panel-head"><h3>Job applications</h3><a class="small" href="careers">Careers →</a></div><div class="panel-body">${apps.length ? apps.map((a) => `<div class="price-row"><span><strong>${esc(a.title)}</strong><br><span class="tiny muted mono">${a.ref} · ${SRV.fmtDate(a.at)}</span></span><span class="badge">Under review</span></div>`).join('') : '<p class="muted small">No applications yet.</p>'}</div></div></div>`;
   }
 
   function tProfile() {

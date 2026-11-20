@@ -14,7 +14,7 @@
 <main id="main">
   <section class="page-hero">
     <div class="container">
-      <div class="crumbs"><a href="index.html">Home</a> / Company / Careers</div>
+      <div class="crumbs"><a href="./">Home</a> / Company / Careers</div>
       <h1>Build a career that moves the world</h1>
       <p>More than 3,400 colleagues in 32 countries. Join us at sea, in port, in the Chennai Operations Centre or at our Dubai headquarters.</p>
     </div>
@@ -87,7 +87,7 @@ SRV.init = function () {
         <div class="field"><label for="aLi">LinkedIn profile (optional)</label><input id="aLi" name="linkedin" class="input" placeholder="https://linkedin.com/in/…" data-pattern="^https?://" data-msg="Enter a full URL starting with http(s)://"></div>
         <div class="field full"><label for="aCv">CV / résumé (PDF or DOC, max 5 MB)</label><input id="aCv" name="cv" type="file" class="input" accept=".pdf,.doc,.docx" data-req></div>
         <div class="field full"><label for="aCover">Why SRV? (optional)</label><textarea id="aCover" name="cover" class="input" style="min-height:90px"></textarea></div>
-        <div class="field full"><label class="check"><input type="checkbox" data-req name="consent"> I consent to SRV processing my data for recruitment purposes as described in the <a href="legal.html#privacy" target="_blank">privacy notice</a>.</label></div>
+        <div class="field full"><label class="check"><input type="checkbox" data-req name="consent"> I consent to SRV processing my data for recruitment purposes as described in the <a href="legal#privacy" target="_blank">privacy notice</a>.</label></div>
         <div class="full" style="display:flex;justify-content:flex-end;gap:10px"><button type="button" class="btn btn-outline" onclick="SRV.closeModal()">Cancel</button><button class="btn btn-primary" type="submit">Submit application</button></div>
       </form>`);
     m.querySelector('#appForm').addEventListener('submit', (e) => {

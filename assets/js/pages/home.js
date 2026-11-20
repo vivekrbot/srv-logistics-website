@@ -51,7 +51,7 @@ SRV.init = function () {
     ['truck', 'Inland, Rail & Last Mile', 'Door-to-door haulage, double-stack rail and bonded trucking from port to plant.', 'inland', 'teal'],
     ['doc', 'Customs & Trade Compliance', 'Licensed brokerage, pre-filing and duty optimisation in every SRV country.', 'customs', 'orange']
   ];
-  $('#svcGrid').innerHTML = svcs.map(([ic, t, d, id, c]) => `<a class="card hover card-link" href="services.html#${id}"><div class="icon-badge ${c}">${icon(ic)}</div><h3>${t}</h3><p class="muted">${d}</p><span class="link-arrow">Learn more</span></a>`).join('');
+  $('#svcGrid').innerHTML = svcs.map(([ic, t, d, id, c]) => `<a class="card hover card-link" href="services#${id}"><div class="icon-badge ${c}">${icon(ic)}</div><h3>${t}</h3><p class="muted">${d}</p><span class="link-arrow">Learn more</span></a>`).join('');
 
   /* HQ & OMC */
   const ae = SRV.country('AE').offices[0], ind = SRV.country('IN').offices[0];
@@ -67,7 +67,7 @@ SRV.init = function () {
       lines[s.code] = pl;
     });
     SRV.PORT_LIST.forEach((p) => L.marker([p.lat, p.lon], { icon: SRV.pinIcon() }).addTo(map)
-      .bindPopup(`<h4>${esc(p.name)}</h4><div>${esc(p.city)}, ${esc(p.country)} · <b>${p.locode}</b></div><div>~${p.teu}M TEU/yr · Draft ${p.depth} m</div><div style="margin-top:6px">Services: ${SRV.servicesAtPort(p.locode).map((s) => s.code).join(', ')}</div><a href="schedules.html?from=${p.locode}">Sailings from here →</a>`));
+      .bindPopup(`<h4>${esc(p.name)}</h4><div>${esc(p.city)}, ${esc(p.country)} · <b>${p.locode}</b></div><div>~${p.teu}M TEU/yr · Draft ${p.depth} m</div><div style="margin-top:6px">Services: ${SRV.servicesAtPort(p.locode).map((s) => s.code).join(', ')}</div><a href="schedules?from=${p.locode}">Sailings from here →</a>`));
     SRV.allOffices().forEach((o) => {
       const hq = /Headquarters|Operations & Management/.test(o.type);
       L.marker([o.lat, o.lon], { icon: SRV.pinIcon(hq ? 'hq' : 'office'), zIndexOffset: hq ? 1000 : 500 }).addTo(map)

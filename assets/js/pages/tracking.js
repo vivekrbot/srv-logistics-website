@@ -70,7 +70,7 @@ SRV.init = function () {
       `<div class="grid two-col" id="trkGrid">
         <div class="panel"><div class="panel-head"><h3>Live route</h3><span class="small muted">${st.leg != null ? `Vessel ${Math.round(st.frac * 100)}% along leg ${st.leg + 1}` : ''}</span></div><div id="trkMap" class="map" style="height:380px;border:0;border-radius:0"></div>
           <div class="panel-body"><h4>Cargo details</h4><div class="table-wrap"><table class="table"><thead><tr><th>Container</th><th>Type</th><th>Seal</th><th>Gross weight</th></tr></thead><tbody>
-          ${s.containers.map((c) => `<tr><td class="mono"><a href="tracking.html?id=${c.no}">${c.no}</a></td><td>${c.type.code}</td><td class="mono">${c.seal}</td><td>${SRV.num(c.weight)} kg</td></tr>`).join('')}</tbody></table></div>
+          ${s.containers.map((c) => `<tr><td class="mono"><a href="tracking?id=${c.no}">${c.no}</a></td><td>${c.type.code}</td><td class="mono">${c.seal}</td><td>${SRV.num(c.weight)} kg</td></tr>`).join('')}</tbody></table></div>
           <div class="kv" style="margin-top:16px"><div><span>Commodity</span><strong>${esc(s.commodity)}</strong></div><div><span>Packages</span><strong>${SRV.num(s.packages)}</strong></div><div><span>Shipper</span><strong>${esc(s.shipper)}</strong></div><div><span>Booking</span><strong class="mono">${s.booking}</strong></div></div></div></div>
         <div class="panel"><div class="panel-head"><h3>Shipment milestones</h3><span class="small muted">Latest first</span></div><div class="panel-body"><div class="timeline">${evHtml}</div>
           <div class="divider" style="margin:8px 0 20px"></div>
@@ -90,7 +90,7 @@ SRV.init = function () {
         <div><span>Equipment</span><strong>${esc(b.desc || b.type)}</strong></div><div><span>Commodity</span><strong>${esc(b.commodity || '—')}</strong></div>
         <div><span>Cargo ready</span><strong>${SRV.fmtDate(SRV.parseISO(b.date))}</strong></div><div><span>Quoted total</span><strong>${SRV.money(b.total)}</strong></div>
         <div><span>Booked by</span><strong>${esc(b.contact || '—')}</strong></div><div><span>Company</span><strong>${esc(b.company || '—')}</strong></div></div>
-        <p class="small muted" style="margin-top:16px">Our Chennai documentation team confirms online bookings within 4 working hours. Manage this booking in the <a href="portal.html">Customer Portal</a>.</p></div></div>
+        <p class="small muted" style="margin-top:16px">Our Chennai documentation team confirms online bookings within 4 working hours. Manage this booking in the <a href="portal">Customer Portal</a>.</p></div></div>
       <div class="panel"><div class="panel-head"><h3>Milestones</h3></div><div class="panel-body"><div class="timeline">${steps.map(([t, d, at]) => `<div class="tl-item ${d ? 'done' : 'future'}"><div class="tl-time">${at ? SRV.fmtDate(at) : 'Pending'}</div><div class="tl-title">${esc(t)}</div></div>`).join('')}</div></div></div></div>
       <div id="trkMap" class="map" style="height:360px;margin-top:24px"></div>`;
     watchBtn(s.id);

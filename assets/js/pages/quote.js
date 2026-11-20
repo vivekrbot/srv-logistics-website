@@ -24,7 +24,7 @@ SRV.init = function () {
     const o = $('#from').value, d = $('#to').value;
     const out = $('#summary');
     if (!o || !d || o === d) { last = null; out.innerHTML = `<div class="empty" style="padding:24px">${icon('route')}<div>${o && o === d ? 'Origin and destination must be different.' : 'Select origin and destination to see a price.'}</div></div>`; return; }
-    const route = SRV.route(o, d); if (!route) { last = null; out.innerHTML = '<div class="alert warn">No routing available. <a href="contact.html">Contact sales</a>.</div>'; return; }
+    const route = SRV.route(o, d); if (!route) { last = null; out.innerHTML = '<div class="alert warn">No routing available. <a href="contact">Contact sales</a>.</div>'; return; }
     const sail = SRV.sailing(route, SRV.parseISO($('#date').value || minDate));
     const O = SRV.port(o), Dp = SRV.port(d);
     const nm = route.nm, legsF = 1 + 0.08 * (route.legs.length - 1);
@@ -102,7 +102,7 @@ SRV.init = function () {
         <div class="field"><label for="bEmail">Email</label><input id="bEmail" name="email" type="email" class="input" data-req value="${esc(prof.email || '')}"></div>
         <div class="field"><label for="bPhone">Phone</label><input id="bPhone" name="phone" class="input" data-req data-pattern="^[+0-9 ()-]{7,20}$" data-msg="Enter a valid phone number." value="${esc(prof.phone || '')}"></div>
         <div class="field full"><label for="bNotes">Shipper / consignee details &amp; special instructions</label><textarea id="bNotes" name="notes" class="input" style="min-height:90px"></textarea></div>
-        <div class="field full"><label class="check"><input type="checkbox" name="terms" data-req> I accept the SRV <a href="legal.html#bl-terms" target="_blank">bill of lading terms</a> and <a href="legal.html#terms" target="_blank">booking conditions</a>.</label></div>
+        <div class="field full"><label class="check"><input type="checkbox" name="terms" data-req> I accept the SRV <a href="legal#bl-terms" target="_blank">bill of lading terms</a> and <a href="legal#terms" target="_blank">booking conditions</a>.</label></div>
         <div class="full" style="display:flex;gap:10px;justify-content:flex-end"><button type="button" class="btn btn-outline" onclick="SRV.closeModal()">Cancel</button><button class="btn btn-primary" type="submit">Submit booking</button></div>
       </form>`);
     m.querySelector('#bForm').addEventListener('submit', (e) => {
@@ -116,13 +116,13 @@ SRV.init = function () {
         <h2 style="font-size:1.6rem">Booking request received</h2>
         <p class="muted">Your booking reference is</p><div class="mono" style="font-size:1.8rem;font-weight:800;color:var(--blue-600);margin-bottom:12px">${b.ref}</div>
         <p class="small muted">Confirmation and the equipment release order will be emailed to <strong>${esc(b.email)}</strong> within 4 working hours by the Chennai Operations &amp; Management Centre.</p>
-        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px"><a class="btn btn-blue" href="tracking.html?id=${b.ref}">Track booking</a><a class="btn btn-outline" href="portal.html">Go to portal</a></div></div>`;
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px"><a class="btn btn-blue" href="tracking?id=${b.ref}">Track booking</a><a class="btn btn-outline" href="portal">Go to portal</a></div></div>`;
     });
   }
 
   function renderSaved() {
     const qs = SRV.store.get('quotes', []).slice(0, 4);
-    $('#saved').innerHTML = qs.length ? qs.map((q) => `<div class="price-row" style="align-items:center"><span><strong class="mono">${q.ref}</strong><br><span class="tiny muted">${esc(SRV.port(q.from).city)} → ${esc(SRV.port(q.to).city)} · ${esc(q.desc)}</span></span><span style="text-align:right"><strong>${SRV.money(q.total)}</strong><br><a class="tiny" href="quote.html?from=${q.from}&to=${q.to}&date=${q.date}${q.mode === 'FCL' ? '&type=' + q.type : ''}">Re-quote</a></span></div>`).join('')
+    $('#saved').innerHTML = qs.length ? qs.map((q) => `<div class="price-row" style="align-items:center"><span><strong class="mono">${q.ref}</strong><br><span class="tiny muted">${esc(SRV.port(q.from).city)} → ${esc(SRV.port(q.to).city)} · ${esc(q.desc)}</span></span><span style="text-align:right"><strong>${SRV.money(q.total)}</strong><br><a class="tiny" href="quote?from=${q.from}&to=${q.to}&date=${q.date}${q.mode === 'FCL' ? '&type=' + q.type : ''}">Re-quote</a></span></div>`).join('')
       : '<p class="small muted" style="margin:12px 0">No saved quotes yet.</p>';
   }
 

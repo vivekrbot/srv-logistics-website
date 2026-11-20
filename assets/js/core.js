@@ -6,6 +6,12 @@
   const D = window.SRV_DATA;
   const SRV = (window.SRV = {});
 
+  /* Clean URLs: show /about instead of /about.html (and / instead of /index.html) on the live site */
+  if (/^https?:$/.test(location.protocol) && /\.html$/.test(location.pathname) && !/\/404\.html$/.test(location.pathname)) {
+    const clean = location.pathname.replace(/index\.html$/, '').replace(/\.html$/, '');
+    history.replaceState(null, '', clean + location.search + location.hash);
+  }
+
   /* ---------------- DOM helpers ---------------- */
   SRV.$ = (s, r = document) => r.querySelector(s);
   SRV.$$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -302,7 +308,7 @@
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><dt>Phone</dt><dd>${SRV.tel(o.phone)}</dd></div><div><dt>Email</dt><dd><a href="mailto:${o.email}">${SRV.esc(o.email)}</a></dd></div></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><dt>Office hours</dt><dd>${SRV.esc(o.hours)}</dd></div>${o.head ? `<div><dt>Office head</dt><dd><strong>${SRV.esc(o.head)}</strong><br><span class="small" style="opacity:.8">${SRV.esc(o.headTitle)}</span></dd></div>` : ''}</div>
       </dl>
-      <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-sm ${featured ? 'btn-primary' : 'btn-outline'}" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${o.lat},${o.lon}">${SRV.icon('pin')}Directions</a><a class="btn btn-sm ${featured ? 'btn-ghost-light' : 'btn-outline'}" href="contact.html?office=${encodeURIComponent(o.name)}">${SRV.icon('mail')}Contact office</a></div>
+      <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-sm ${featured ? 'btn-primary' : 'btn-outline'}" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${o.lat},${o.lon}">${SRV.icon('pin')}Directions</a><a class="btn btn-sm ${featured ? 'btn-ghost-light' : 'btn-outline'}" href="contact?office=${encodeURIComponent(o.name)}">${SRV.icon('mail')}Contact office</a></div>
     </div>`;
   SRV.allOffices = () => D.COUNTRIES.flatMap((c) => c.offices.map((o) => Object.assign({ country: c.name, cc: c.code, region: c.region }, o)));
 
@@ -328,19 +334,19 @@
 
   /* ---------------- Layout ---------------- */
   const NAV = [
-    { href: 'index.html', label: 'Home', page: 'home' },
+    { href: './', label: 'Home', page: 'home' },
     { label: 'Company', page: ['about', 'leadership', 'fleet', 'careers'], items: [
-      { href: 'about.html', label: 'About SRV', sub: 'Our story, HQ & Operations Centre' },
-      { href: 'leadership.html', label: 'Leadership & Board', sub: 'Directors, CEO and governance' },
-      { href: 'fleet.html', label: 'Our Fleet', sub: `${D.FLEET.length} container vessels` },
-      { href: 'careers.html', label: 'Careers', sub: 'Join our global team' } ] },
-    { href: 'services.html', label: 'Services', page: 'services' },
-    { href: 'network.html', label: 'Global Network', page: 'network' },
+      { href: 'about', label: 'About SRV', sub: 'Our story, HQ & Operations Centre' },
+      { href: 'leadership', label: 'Leadership & Board', sub: 'Directors, CEO and governance' },
+      { href: 'fleet', label: 'Our Fleet', sub: `${D.FLEET.length} container vessels` },
+      { href: 'careers', label: 'Careers', sub: 'Join our global team' } ] },
+    { href: 'services', label: 'Services', page: 'services' },
+    { href: 'network', label: 'Global Network', page: 'network' },
     { label: 'Digital Tools', page: ['tracking', 'schedules', 'quote'], items: [
-      { href: 'tracking.html', label: 'Track & Trace', sub: 'Container, B/L or booking' },
-      { href: 'schedules.html', label: 'Sailing Schedules', sub: 'Point-to-point schedules' },
-      { href: 'quote.html', label: 'Instant Quote & Booking', sub: 'Price and book online' } ] },
-    { href: 'contact.html', label: 'Contact', page: 'contact' }
+      { href: 'tracking', label: 'Track & Trace', sub: 'Container, B/L or booking' },
+      { href: 'schedules', label: 'Sailing Schedules', sub: 'Point-to-point schedules' },
+      { href: 'quote', label: 'Instant Quote & Booking', sub: 'Price and book online' } ] },
+    { href: 'contact', label: 'Contact', page: 'contact' }
   ];
 
   function renderHeader() {
@@ -356,15 +362,15 @@
     const top = document.createElement('div');
     top.innerHTML = `<div class="topbar"><div class="container">
         <div class="tb-left"><span>${SRV.icon('building')}HQ Dubai: <a href="tel:${S.hq.phone.replace(/\s/g, '')}">${S.hq.phone}</a></span><span class="hide-sm">${SRV.icon('anchor')}OMC Chennai: <a href="tel:${S.omc.phone.replace(/\s/g, '')}">${S.omc.phone}</a></span></div>
-        <div class="tb-right"><a href="mailto:${S.support.email}">${SRV.icon('mail')}${S.support.email}</a><a href="network.html">${SRV.icon('globe')}32 Countries</a></div>
+        <div class="tb-right"><a href="mailto:${S.support.email}">${SRV.icon('mail')}${S.support.email}</a><a href="network">${SRV.icon('globe')}32 Countries</a></div>
       </div></div>
       <header class="site-header"><div class="container">
-        <a class="brand" href="index.html" aria-label="${S.name} home">${SRV.logo()}<span class="brand-text"><strong>SRV</strong><span>Logistics &amp; Shipping</span></span></a>
+        <a class="brand" href="./" aria-label="${S.name} home">${SRV.logo()}<span class="brand-text"><strong>SRV</strong><span>Logistics &amp; Shipping</span></span></a>
         <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">${SRV.icon('menu')}</button>
         <nav class="main-nav" aria-label="Main">${nav}
-          <div class="mobile-cta"><a class="btn btn-outline" href="portal.html">${SRV.icon('user')}Customer Portal</a><a class="btn btn-primary" href="quote.html">Get a Quote</a></div>
+          <div class="mobile-cta"><a class="btn btn-outline" href="portal">${SRV.icon('user')}Customer Portal</a><a class="btn btn-primary" href="quote">Get a Quote</a></div>
         </nav>
-        <div class="header-cta desktop"><a class="btn btn-outline btn-sm" href="portal.html">${SRV.icon('user')}myPortal</a><a class="btn btn-primary btn-sm" href="quote.html">Get a Quote</a></div>
+        <div class="header-cta desktop"><a class="btn btn-outline btn-sm" href="portal">${SRV.icon('user')}myPortal</a><a class="btn btn-primary btn-sm" href="quote">Get a Quote</a></div>
       </div></header>`;
     document.body.prepend(...top.children);
 
@@ -383,20 +389,20 @@
     const f = document.createElement('footer'); f.className = 'site-footer';
     f.innerHTML = `<div class="container"><div class="f-grid">
         <div class="f-brand">
-          <a class="brand" href="index.html">${SRV.logo()}<span class="brand-text"><strong>SRV</strong><span>Logistics &amp; Shipping</span></span></a>
+          <a class="brand" href="./">${SRV.logo()}<span class="brand-text"><strong>SRV</strong><span>Logistics &amp; Shipping</span></span></a>
           <p style="margin-top:18px;max-width:340px">${S.name} — an integrated container shipping and logistics group headquartered at Jebel Ali, Dubai, with its global Operations &amp; Management Centre at Chennai Port, India.</p>
           <div class="socials"><a href="${S.social.linkedin}" aria-label="LinkedIn">${SRV.icon('linkedin')}</a><a href="${S.social.x}" aria-label="X">${SRV.icon('xsocial')}</a><a href="${S.social.youtube}" aria-label="YouTube">${SRV.icon('youtube')}</a><a href="${S.social.instagram}" aria-label="Instagram">${SRV.icon('instagram')}</a></div>
         </div>
-        <div><h5>Company</h5><ul><li><a href="about.html">About SRV</a></li><li><a href="leadership.html">Leadership &amp; Board</a></li><li><a href="fleet.html">Our Fleet</a></li><li><a href="about.html#sustainability">Sustainability</a></li><li><a href="careers.html">Careers</a></li><li><a href="index.html#news">News</a></li></ul></div>
-        <div><h5>Services</h5><ul><li><a href="services.html#fcl">Ocean Freight FCL</a></li><li><a href="services.html#lcl">LCL Consolidation</a></li><li><a href="services.html#reefer">Reefer Cargo</a></li><li><a href="services.html#project">Project Cargo</a></li><li><a href="services.html#inland">Inland &amp; Rail</a></li><li><a href="services.html#customs">Customs Brokerage</a></li></ul></div>
-        <div><h5>Digital Tools</h5><ul><li><a href="tracking.html">Track &amp; Trace</a></li><li><a href="schedules.html">Sailing Schedules</a></li><li><a href="quote.html">Instant Quote</a></li><li><a href="portal.html">Customer Portal</a></li><li><a href="network.html">Port &amp; Office Finder</a></li></ul></div>
+        <div><h5>Company</h5><ul><li><a href="about">About SRV</a></li><li><a href="leadership">Leadership &amp; Board</a></li><li><a href="fleet">Our Fleet</a></li><li><a href="about#sustainability">Sustainability</a></li><li><a href="careers">Careers</a></li><li><a href="./#news">News</a></li></ul></div>
+        <div><h5>Services</h5><ul><li><a href="services#fcl">Ocean Freight FCL</a></li><li><a href="services#lcl">LCL Consolidation</a></li><li><a href="services#reefer">Reefer Cargo</a></li><li><a href="services#project">Project Cargo</a></li><li><a href="services#inland">Inland &amp; Rail</a></li><li><a href="services#customs">Customs Brokerage</a></li></ul></div>
+        <div><h5>Digital Tools</h5><ul><li><a href="tracking">Track &amp; Trace</a></li><li><a href="schedules">Sailing Schedules</a></li><li><a href="quote">Instant Quote</a></li><li><a href="portal">Customer Portal</a></li><li><a href="network">Port &amp; Office Finder</a></li></ul></div>
         <div>
           <h5>Head Offices</h5>
           <div class="f-office"><strong>Global HQ — Dubai, UAE</strong>Jebel Ali Free Zone, Jebel Ali Port<br><a href="tel:${S.hq.phone.replace(/\s/g, '')}">${S.hq.phone}</a> · <a href="mailto:${S.hq.email}">${S.hq.email}</a></div>
           <div class="f-office"><strong>Operations &amp; Management Centre — Chennai, India</strong>Chennai Port, Rajaji Salai<br><a href="tel:${S.omc.phone.replace(/\s/g, '')}">${S.omc.phone}</a> · <a href="mailto:${S.omc.email}">${S.omc.email}</a></div>
         </div>
       </div>
-      <div class="f-bottom"><span>© ${new Date().getFullYear()} ${S.name}. All rights reserved.</span><span><a href="legal.html#privacy">Privacy</a> · <a href="legal.html#terms">Terms of Use</a> · <a href="legal.html#bl-terms">B/L Terms</a> · <a href="legal.html#cookies">Cookies</a></span></div>
+      <div class="f-bottom"><span>© ${new Date().getFullYear()} ${S.name}. All rights reserved.</span><span><a href="legal#privacy">Privacy</a> · <a href="legal#terms">Terms of Use</a> · <a href="legal#bl-terms">B/L Terms</a> · <a href="legal#cookies">Cookies</a></span></div>
     </div>`;
     document.body.appendChild(f);
 
@@ -406,7 +412,7 @@
 
     if (!SRV.store.get('cookie', null)) {
       const c = document.createElement('div'); c.className = 'cookie-bar'; c.setAttribute('role', 'dialog'); c.setAttribute('aria-label', 'Cookie preferences');
-      c.innerHTML = `<strong>We value your privacy</strong><p class="small muted" style="margin:6px 0 0">This site stores your quotes, bookings and preferences locally in your browser. See our <a href="legal.html#cookies">cookie policy</a>.</p><div class="actions"><button class="btn btn-blue btn-sm" data-c="all">Accept all</button><button class="btn btn-outline btn-sm" data-c="essential">Essential only</button></div>`;
+      c.innerHTML = `<strong>We value your privacy</strong><p class="small muted" style="margin:6px 0 0">This site stores your quotes, bookings and preferences locally in your browser. See our <a href="legal#cookies">cookie policy</a>.</p><div class="actions"><button class="btn btn-blue btn-sm" data-c="all">Accept all</button><button class="btn btn-outline btn-sm" data-c="essential">Essential only</button></div>`;
       c.addEventListener('click', (e) => { const b = e.target.closest('[data-c]'); if (!b) return; SRV.store.set('cookie', b.dataset.c); c.remove(); });
       document.body.appendChild(c);
       // keep back-to-top from overlapping
