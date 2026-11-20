@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Leadership &amp; Board | SRV Logistics &amp; Shipping</title>
+  <meta name="description" content="Board of Directors and executive leadership of SRV Logistics and Shipping Corporation Pvt Ltd.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="leadership">
+<main id="main">
+  <section class="page-hero">
+    <div class="container">
+      <div class="crumbs"><a href="index.html">Home</a> / Company / Leadership &amp; Board</div>
+      <h1>Leadership &amp; Board of Directors</h1>
+      <p>Experienced leaders from India, the UAE, Europe and Asia, guiding SRV with clear accountability and strong governance.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Executive leadership</span><h2>Director &amp; Chief Executive Officer</h2></div>
+      <div class="grid" style="gap:28px" id="execs"></div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Board of Directors</span><h2>The Board</h2><p class="lead">The Board is chaired by our Founding Director, K Ramachandran. Executive directors are joined by three independent directors from the UAE, the Netherlands and Singapore.</p></div>
+      <div class="grid g-3" id="board"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split" style="align-items:start">
+      <div>
+        <span class="eyebrow">Governance</span>
+        <h2>Board committees</h2>
+        <p class="lead">Four standing committees support the Board on audit, compliance, sustainability and people matters. Each committee has written terms of reference and meets at least quarterly.</p>
+        <ul class="feature-list">
+          <li><span data-icon="shield"></span><span>Code of Conduct and Anti-Bribery &amp; Corruption policy covering every employee and agent</span></li>
+          <li><span data-icon="shield"></span><span>Independent whistle-blower channel that reports directly to the Audit Committee</span></li>
+          <li><span data-icon="shield"></span><span>Sanctions screening on every booking, party and vessel</span></li>
+        </ul>
+      </div>
+      <div class="table-wrap"><table class="table"><thead><tr><th>Committee</th><th>Chair</th><th>Members</th></tr></thead><tbody id="committees"></tbody></table></div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Global management</span><h2>Head office &amp; regional leadership</h2><p class="lead">Day-to-day leadership of our head offices and regional hubs.</p></div>
+      <div class="grid g-3" id="regional"></div>
+      <p style="margin-top:24px"><a class="link-arrow" href="network.html">See all 32 country managers in our Global Network</a></p>
+    </div>
+  </section>
+</main>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/core.js"></script>
+<script>
+SRV.init = function () {
+  const { esc, $ } = SRV; const L = SRV_DATA.LEADERSHIP;
+  $('#execs').innerHTML = [L.founder, L.ceo].map((p, i) => `<div class="card exec">
+      <div><div class="avatar lg ${i ? 'navy' : 'orange'}">${esc(p.initials)}</div></div>
+      <div><span class="badge ${i ? '' : 'orange'}">${esc(p.title)}</span>
+        <h2 style="margin:10px 0 4px">${esc(p.name)}</h2>
+        <div class="person"><div class="role">${esc(p.role)}</div><div class="loc">${SRV.icon('pin', '').replace('<svg ', '<svg style="width:14px;height:14px;vertical-align:-2px" ')} ${esc(p.location)}</div></div>
+        <p>${esc(p.bio)}</p>
+        <div class="chips">${p.focus.map((f) => `<span class="badge gray">${esc(f)}</span>`).join('')}</div>
+      </div></div>`).join('');
+  $('#board').innerHTML = [L.founder, L.ceo].map((p) => Object.assign({}, p, { role: p === L.founder ? 'Founding Director & Chairman' : 'Chief Executive Officer & Executive Director', country: 'India' }))
+    .concat(L.board).map((p, i) => `<div class="card person hover">
+      <div class="avatar ${i < 2 ? 'orange' : i < 5 ? '' : 'navy'}">${esc(p.initials)}</div>
+      <span class="badge ${/Independent/.test(p.title) ? 'teal' : 'gray'}" style="align-self:flex-start;margin-bottom:10px">${/Independent/.test(p.title) ? 'Independent Director' : i < 2 ? 'Executive' : 'Director'}</span>
+      <h3 style="margin-bottom:4px">${esc(p.name)}</h3>
+      <div class="role">${esc(p.role)}</div>
+      <div class="loc">${esc(p.location)}</div>
+      <p class="muted small" style="margin:0">${esc(i < 2 ? p.bio.split('. ').slice(0, 1).join('. ') + '.' : p.bio)}</p></div>`).join('');
+  $('#committees').innerHTML = L.committees.map((c) => `<tr><td><strong>${esc(c.name)}</strong></td><td>${esc(c.chair)}</td><td>${c.members.map(esc).join(', ')}</td></tr>`).join('');
+  const hubs = SRV.allOffices().filter((o) => /Headquarters|Operations & Management|Regional Hub/.test(o.type));
+  $('#regional').innerHTML = hubs.map((o) => `<div class="card"><div class="avatar navy" style="width:64px;height:64px;font-size:1.2rem">${esc(o.head.split(' ').map((w) => w[0]).filter((c) => /[A-Z]/.test(c)).slice(0, 2).join(''))}</div><h4 style="margin-bottom:2px">${esc(o.head)}</h4><div class="small" style="color:var(--blue-600);font-weight:600">${esc(o.headTitle)}</div><div class="small muted">${esc(o.city)}, ${esc(o.country)}</div></div>`).join('');
+};
+</script>
+</body>
+</html>

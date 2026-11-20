@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SRV Logistics &amp; Shipping | Global Container Shipping from Dubai &amp; Chennai</title>
+  <meta name="description" content="SRV Logistics and Shipping Corporation Pvt Ltd — integrated container shipping and logistics across 32 countries. HQ at Jebel Ali, Dubai; Operations & Management Centre at Chennai Port, India.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="home">
+<main id="main">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-art" id="heroArt" aria-hidden="true"></div>
+    <div class="container">
+      <span class="eyebrow">Dubai HQ · Chennai Operations Centre · 32 Countries</span>
+      <h1>Your cargo. <em>Our ocean.</em><br>One integrated global network.</h1>
+      <p class="lead">From Jebel Ali to Rotterdam, Chennai to Shanghai, Santos to Sydney — SRV moves containers on 16 weekly liner services with end-to-end logistics, customs and real-time visibility.</p>
+      <div class="hero-actions">
+        <a href="quote.html" class="btn btn-primary">Get an instant quote</a>
+        <a href="tracking.html" class="btn btn-ghost-light">Track a shipment</a>
+      </div>
+    </div>
+    <div class="waves" aria-hidden="true">
+      <svg class="w2" viewBox="0 0 2400 120" preserveAspectRatio="none"><path d="M0 60 Q150 20 300 60 T600 60 T900 60 T1200 60 T1500 60 T1800 60 T2100 60 T2400 60 V120 H0Z" fill="#1a63b8"/></svg>
+      <svg viewBox="0 0 2400 120" preserveAspectRatio="none"><path d="M0 80 Q150 50 300 80 T600 80 T900 80 T1200 80 T1500 80 T1800 80 T2100 80 T2400 80 V120 H0Z" fill="#f5f8fc"/></svg>
+    </div>
+  </section>
+
+  <!-- QUICK TOOLS -->
+  <section class="quick-tools">
+    <div class="container">
+      <div class="qt-card">
+        <div class="qt-tabs" role="tablist">
+          <button class="active" data-tab="track" role="tab" aria-selected="true"><span data-icon="search"></span>Track &amp; Trace</button>
+          <button data-tab="sched" role="tab" aria-selected="false"><span data-icon="calendar"></span>Sailing Schedules</button>
+          <button data-tab="quote" role="tab" aria-selected="false"><span data-icon="dollar"></span>Instant Quote</button>
+        </div>
+        <form class="qt-panel active" id="qt-track" action="tracking.html" method="get" novalidate>
+          <div class="qt-row two">
+            <div class="field"><label for="qtId">Container, Bill of Lading or Booking number</label>
+              <input class="input mono" id="qtId" name="id" placeholder="Enter container, B/L or booking number" autocomplete="off" data-req></div>
+            <button class="btn btn-primary" type="submit">Track</button>
+          </div>
+        </form>
+        <form class="qt-panel" id="qt-sched" action="schedules.html" method="get" novalidate>
+          <div class="qt-row">
+            <div class="field"><label for="qsFrom">From (port of loading)</label><select class="input" id="qsFrom" name="from" data-req></select></div>
+            <div class="field"><label for="qsTo">To (port of discharge)</label><select class="input" id="qsTo" name="to" data-req></select></div>
+            <div class="field"><label for="qsDate">Departing from</label><input class="input" type="date" id="qsDate" name="date"></div>
+            <button class="btn btn-primary" type="submit">Find sailings</button>
+          </div>
+        </form>
+        <form class="qt-panel" id="qt-quote" action="quote.html" method="get" novalidate>
+          <div class="qt-row">
+            <div class="field"><label for="qqFrom">Origin port</label><select class="input" id="qqFrom" name="from" data-req></select></div>
+            <div class="field"><label for="qqTo">Destination port</label><select class="input" id="qqTo" name="to" data-req></select></div>
+            <div class="field"><label for="qqType">Equipment</label><select class="input" id="qqType" name="type"></select></div>
+            <button class="btn btn-primary" type="submit">Get price</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="section-sm" style="padding-top:64px">
+    <div class="container">
+      <div class="section dark" style="padding:8px 16px;border-radius:20px">
+        <div class="stats">
+          <div class="stat"><div class="num"><span data-count="32">0</span></div><div class="lbl">Countries with SRV offices</div></div>
+          <div class="stat"><div class="num"><span data-count="55">0</span></div><div class="lbl">Ports served worldwide</div></div>
+          <div class="stat"><div class="num"><span data-count="20">0</span></div><div class="lbl">Container vessels in service</div></div>
+          <div class="stat"><div class="num"><span data-count="16">0</span><small>/wk</small></div><div class="lbl">Fixed-day liner services</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section" style="padding-top:40px">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">What we do</span><h2>End-to-end shipping &amp; logistics, under one roof</h2><p class="lead">Ocean is our core. Around it we have built inland, customs, warehousing and digital services, so your supply chain runs through a single accountable partner.</p></div>
+      <div class="grid g-3" id="svcGrid"></div>
+    </div>
+  </section>
+
+  <!-- HQ & OMC -->
+  <section class="section alt">
+    <div class="container">
+      <div class="split">
+        <div>
+          <span class="eyebrow">Two hubs. One team.</span>
+          <h2>Headquartered in Dubai. Operated from Chennai.</h2>
+          <p class="lead">Our Global Headquarters at Jebel Ali sits at the crossroads of East–West trade. Our 24×7 Operations &amp; Management Centre at Chennai Port runs vessel operations, equipment control, documentation and the global control tower for every SRV shipment.</p>
+          <ul class="feature-list">
+            <li><span data-icon="checkCircle"></span><span><strong>Jebel Ali, Dubai:</strong> group leadership, commercial, finance and Gulf trade.</span></li>
+            <li><span data-icon="checkCircle"></span><span><strong>Chennai Port, India:</strong> vessel and network operations, documentation, customer care and technology.</span></li>
+            <li><span data-icon="checkCircle"></span><span><strong>Regional hubs:</strong> Singapore (APAC), Rotterdam (Europe) and Newark, NJ (Americas).</span></li>
+          </ul>
+          <a class="link-arrow" href="about.html">More about SRV</a>
+        </div>
+        <div class="grid" style="gap:20px" id="hubCards"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NETWORK MAP -->
+  <section class="section dark">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Global network</span><h2>32 countries. 55 ports. 16 weekly services.</h2><p class="lead">Each line on the map is an SRV liner service; each dot is a port we call at or an office we run. Select a point for details.</p></div>
+      <div id="homeMap" class="map dark" style="height:480px"></div>
+      <div class="chips" id="svcLegend" style="margin-top:18px"></div>
+      <div style="margin-top:28px"><a class="btn btn-primary" href="network.html">Explore ports &amp; offices</a></div>
+    </div>
+  </section>
+
+  <!-- WHY SRV -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center"><span class="eyebrow">Why SRV</span><h2>Built for reliability, designed around you</h2></div>
+      <div class="grid g-4">
+        <div class="card"><div class="icon-badge teal" data-icon="clock"></div><h4>Fixed-day sailings</h4><p class="muted small">Weekly services that call on the same day every week, so you can plan production and inventory.</p></div>
+        <div class="card"><div class="icon-badge" data-icon="gauge"></div><h4>24×7 control tower</h4><p class="muted small">The Chennai OMC watches every vessel and container around the clock and alerts you before exceptions turn into delays.</p></div>
+        <div class="card"><div class="icon-badge orange" data-icon="shield"></div><h4>Compliance built in</h4><p class="muted small">AEO-aligned processes, ICS2 / AMS / ENS filing and licensed customs brokers in every SRV country.</p></div>
+        <div class="card"><div class="icon-badge teal" data-icon="leaf"></div><h4>Greener shipping</h4><p class="muted small">Dual-fuel tonnage, slow-steaming optimisation and certified low-carbon options on key corridors.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEADERSHIP TEASER -->
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Leadership</span><h2>Guided by experience, governed with care</h2></div>
+      <div class="grid g-2" id="leaderTeaser"></div>
+      <div style="margin-top:28px"><a class="link-arrow" href="leadership.html">Meet the full Board of Directors</a></div>
+    </div>
+  </section>
+
+  <!-- NEWS -->
+  <section class="section" id="news">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Newsroom</span><h2>Latest from SRV</h2></div>
+      <div class="grid g-4" id="newsGrid"></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section-sm" style="padding-bottom:88px">
+    <div class="container">
+      <div class="cta-band">
+        <div><h2>Ready to ship with SRV?</h2><p>Get a price and a confirmed sailing in under two minutes.</p></div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn btn-light" href="quote.html">Get a quote</a><a class="btn btn-ghost-light" href="contact.html">Talk to sales</a></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/pages/home.js"></script>
+</body>
+</html>

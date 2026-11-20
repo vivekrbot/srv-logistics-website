@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Our Fleet | SRV Logistics &amp; Shipping</title>
+  <meta name="description" content="The SRV container fleet: vessel particulars, deployment and live positions.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="fleet">
+<main id="main">
+  <section class="page-hero">
+    <div class="container">
+      <div class="crumbs"><a href="index.html">Home</a> / Company / Our Fleet</div>
+      <h1>Our fleet</h1>
+      <p>A modern fleet of owned and long-term chartered container vessels, from 1,700 TEU feeders to 13,200 TEU neo-panamax ships, deployed across 16 weekly services.</p>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container">
+      <div class="grid g-4" id="kpis"></div>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container">
+      <div class="panel">
+        <div class="panel-head"><h3>Live fleet positions</h3><span class="small muted">Estimated from published service rotations · updated <span id="asof"></span></span></div>
+        <div id="fleetMap" class="map" style="height:460px;border:0;border-radius:0 0 12px 12px"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm" style="padding-bottom:88px">
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:16px">
+        <h2 style="margin:0;font-size:1.6rem">Vessel particulars</h2>
+        <div class="chips" id="filters"><button class="chip active" data-f="all">All</button><button class="chip" data-f="owned">Owned</button><button class="chip" data-f="chartered">Chartered</button><button class="chip" data-f="large">8,000+ TEU</button></div>
+      </div>
+      <div class="table-wrap"><table class="table"><thead><tr><th>Vessel</th><th>IMO</th><th>Type</th><th>TEU</th><th>Reefer plugs</th><th>LOA × Beam</th><th>Built</th><th>Flag</th><th>Service</th><th>Current status</th></tr></thead><tbody id="fleetTable"></tbody></table></div>
+    </div>
+  </section>
+</main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/shipment.js"></script>
+<script>
+SRV.init = function () {
+  const { $, $$, esc } = SRV; const D = SRV_DATA;
+  const imo = (name) => { const b = '9' + String(SRV.hash(name) % 100000).padStart(5, '0'); const s = [...b].reduce((a, d, i) => a + Number(d) * (7 - i), 0); return b + (s % 10); };
+  const now = new Date(); $('#asof').textContent = SRV.fmtDateTime(now);
+
+  /* Position of a vessel: phase within its service's round trip */
+  function position(v) {
+    const s = SRV.service(v.service), m = SRV.SVC_META[v.service];
+    const pool = SRV.vesselPool(v.service); const i = Math.max(0, pool.indexOf(v.name));
+    const pts = SRV.coordsOf(s.rotation); const half = m.roundDays / 2;
+    let phase = ((now / 864e5) + i * (m.roundDays / pool.length) + SRV.hash(v.name) % 7) % m.roundDays;
+    const fwd = phase < half; const f = (fwd ? phase : phase - half) / half;
+    const path = fwd ? pts : pts.slice().reverse(); const keys = fwd ? s.rotation : s.rotation.slice().reverse();
+    // nearest upcoming port along path
+    const tot = m.totalNm; let acc = 0, target = tot * f, next = null;
+    for (let k = 1; k < path.length; k++) { acc += SRV.nm(path[k - 1], path[k]); if (acc >= target && keys[k][0] !== '~') { next = keys[k]; break; } }
+    next = next || keys[keys.length - 1];
+    const pos = SRV.alongPath(path, f);
+    const distToNext = SRV.nm(pos, [SRV.port(next).lat, SRV.port(next).lon]);
+    const inPort = distToNext < 40;
+    return { pos, next, inPort, eta: SRV.addDays(now, Math.max(0, Math.round(distToNext / (v.speed * 0.8 * 24)))) };
+  }
+  const rows = D.FLEET.map((v) => Object.assign({ imo: imo(v.name), p: position(v) }, v));
+
+  const totTeu = rows.reduce((a, v) => a + v.teu, 0), avgAge = rows.reduce((a, v) => a + (now.getFullYear() - v.built), 0) / rows.length;
+  $('#kpis').innerHTML = [[rows.length, 'Vessels in operation'], [SRV.num(totTeu), 'Total TEU capacity'], [rows.filter((v) => v.owned).length + ' / ' + rows.filter((v) => !v.owned).length, 'Owned / chartered'], [avgAge.toFixed(1) + ' yrs', 'Average fleet age']]
+    .map(([v, l]) => `<div class="kpi"><div class="v">${v}</div><div class="l">${l}</div></div>`).join('');
+
+  const map = SRV.makeMap($('#fleetMap'), { center: [20, 50], zoom: 2 });
+  if (map) {
+    D.SERVICES.forEach((s) => L.polyline(SRV.unwrap(SRV.coordsOf(s.rotation)), { color: s.color, weight: 1.5, opacity: .35 }).addTo(map));
+    rows.forEach((v) => L.marker(v.p.pos, { icon: L.divIcon({ className: '', html: `<div class="pin ship" style="background:${SRV.service(v.service).color}"></div>`, iconSize: [18, 18], iconAnchor: [9, 9] }) }).addTo(map)
+      .bindPopup(`<h4>${esc(v.name)}</h4>IMO ${v.imo} · ${SRV.num(v.teu)} TEU<br>Service ${v.service} — ${esc(SRV.service(v.service).name)}<br>${v.p.inPort ? 'In port' : 'Bound for'} <b>${esc(SRV.port(v.p.next).name)}</b><br>ETA ${SRV.fmtDate(v.p.eta)}`));
+  }
+
+  function render(f) {
+    const list = rows.filter((v) => f === 'all' || (f === 'owned' && v.owned) || (f === 'chartered' && !v.owned) || (f === 'large' && v.teu >= 8000));
+    $('#fleetTable').innerHTML = list.map((v) => `<tr><td><strong>${esc(v.name)}</strong><div class="tiny muted">${v.owned ? 'Owned' : 'Long-term charter'}</div></td><td class="mono">${v.imo}</td><td class="small">${esc(v.type)}</td><td><strong>${SRV.num(v.teu)}</strong></td><td>${v.reefer}</td><td class="nowrap">${v.loa} × ${v.beam} m</td><td>${v.built}</td><td>${esc(v.flag)}</td>
+      <td><span class="badge" style="background:${SRV.service(v.service).color};color:#fff">${v.service}</span></td>
+      <td class="small">${v.p.inPort ? '<span class="badge green">In port</span>' : '<span class="badge">At sea</span>'}<div>${v.p.inPort ? '' : 'to '}${esc(SRV.port(v.p.next).city)} · ETA ${SRV.fmtDate(v.p.eta)}</div></td></tr>`).join('');
+  }
+  $('#filters').addEventListener('click', (e) => { const b = e.target.closest('[data-f]'); if (!b) return; $$('#filters .chip').forEach((x) => x.classList.toggle('active', x === b)); render(b.dataset.f); });
+  render('all');
+};
+</script>
+</body>
+</html>

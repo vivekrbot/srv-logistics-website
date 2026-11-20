@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Global Network – Ports &amp; Offices | SRV Logistics &amp; Shipping</title>
+  <meta name="description" content="SRV offices and port calls in 32 countries: addresses, contacts, UN/LOCODEs, terminals and liner services.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="network">
+<main id="main">
+  <section class="page-hero">
+    <div class="container">
+      <div class="crumbs"><a href="index.html">Home</a> / Global Network</div>
+      <h1>Global network: 32 countries</h1>
+      <p>Find SRV offices, port contacts, terminals and liner services worldwide. Select a country for full office and port details.</p>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container">
+      <div class="panel" style="margin-bottom:20px"><div class="panel-body" style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+        <div class="field" style="flex:1;min-width:240px"><label for="q" class="sr-only">Search</label><input id="q" class="input" placeholder="Search country, city, port or UN/LOCODE…" autocomplete="off"></div>
+        <div class="chips" id="regions"></div>
+      </div></div>
+
+      <div class="net-layout">
+        <div class="panel">
+          <div class="panel-head"><h3 id="countLbl">Countries</h3><span class="small muted">Offices · Ports</span></div>
+          <div class="net-list" id="list"></div>
+        </div>
+        <div>
+          <div id="netMap" class="map" style="height:440px"></div>
+          <div id="detail" style="margin-top:24px"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Directory</span><h2>Port directory</h2><p class="lead">All ports served by SRV liner services. Annual throughput is approximate; terminal and draft data is indicative only.</p></div>
+      <div class="table-wrap"><table class="table"><thead><tr><th>Port</th><th>UN/LOCODE</th><th>Country</th><th>Throughput</th><th>Max draft</th><th>SRV services</th><th></th></tr></thead><tbody id="portTable"></tbody></table></div>
+    </div>
+  </section>
+</main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/pages/network.js"></script>
+</body>
+</html>

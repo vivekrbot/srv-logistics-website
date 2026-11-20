@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Services | SRV Logistics &amp; Shipping</title>
+  <meta name="description" content="Ocean freight FCL & LCL, reefer, project cargo, sea-air, inland, customs brokerage, warehousing and digital services from SRV Logistics & Shipping.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="services">
+<main id="main">
+  <section class="page-hero">
+    <div class="container">
+      <div class="crumbs"><a href="index.html">Home</a> / Services</div>
+      <h1>Shipping &amp; logistics services</h1>
+      <p>One partner from factory gate to customer door: ocean, inland, customs, warehousing and digital tools, all on a single booking.</p>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container">
+      <nav class="pill-nav" aria-label="Service sections">
+        <a class="chip" href="#fcl">FCL</a><a class="chip" href="#lcl">LCL</a><a class="chip" href="#reefer">Reefer</a><a class="chip" href="#project">Project cargo</a><a class="chip" href="#seaair">Sea-Air</a><a class="chip" href="#inland">Inland &amp; Rail</a><a class="chip" href="#customs">Customs</a><a class="chip" href="#warehousing">Warehousing</a><a class="chip" href="#digital">Digital</a><a class="chip" href="#liner">Liner services</a><a class="chip" href="#equipment">Equipment</a>
+      </nav>
+      <div id="blocks" style="margin-top:24px"></div>
+    </div>
+  </section>
+
+  <section class="section alt" id="liner" style="scroll-margin-top:90px">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Liner services</span><h2>16 weekly services</h2><p class="lead">Fixed-day weekly sailings. Select a service to see its schedule from the first port of call.</p></div>
+      <div class="grid g-2" id="linerGrid"></div>
+    </div>
+  </section>
+
+  <section class="section" id="equipment" style="scroll-margin-top:90px">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Equipment</span><h2>Container specifications</h2></div>
+      <div class="table-wrap"><table class="table"><thead><tr><th>Code</th><th>Type</th><th>TEU</th><th>Max payload</th><th>Capacity</th><th></th></tr></thead><tbody id="eqTable"></tbody></table></div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head center"><span class="eyebrow">Industries</span><h2>Specialist teams for your sector</h2></div>
+      <div class="grid g-4" id="industries"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head center"><span class="eyebrow">How it works</span><h2>From quote to delivery in five steps</h2></div>
+      <div class="grid g-4" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))" id="steps"></div>
+    </div>
+  </section>
+
+  <section class="section-sm" style="padding-bottom:88px">
+    <div class="container"><div class="cta-band"><div><h2>Have a shipment in mind?</h2><p>Get an instant all-in price with a confirmed weekly sailing.</p></div><a class="btn btn-light" href="quote.html">Get a quote</a></div></div>
+  </section>
+</main>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/core.js"></script>
+<script>
+SRV.init = function () {
+  const { $, esc, icon } = SRV; const D = SRV_DATA;
+  const B = [
+    ['fcl', 'ship', 'Ocean Freight — Full Container Load (FCL)', 'Dedicated containers on our own fixed-day services and partner networks. Choose from dry, high-cube, reefer, open-top and flat-rack equipment, with port-to-port or door-to-door terms.',
+      ['16 weekly liner services across 55 ports', 'Contract and spot rates with guaranteed space options', 'Free-time and detention packages', 'Hazardous (IMDG) cargo handled by certified specialists']],
+    ['lcl', 'layers', 'LCL Consolidation', 'Ship less than a container with weekly consolidation from our CFS hubs. Pay only for the space you use and still get carrier-grade reliability.',
+      ['Direct consolidation boxes from Chennai, Jebel Ali, Singapore, Rotterdam and Mumbai', 'Minimum 1 CBM, charged per W/M', 'Buyer’s consolidation and vendor management', 'Integrated customs clearance at both ends']],
+    ['reefer', 'snow', 'Reefer & Cold Chain', 'Temperature-controlled transport from −35 °C to +30 °C for pharmaceuticals, seafood, meat, fresh produce and flowers.',
+      ['Live remote container monitoring (temperature, humidity, CO₂, location)', 'Controlled-atmosphere and cold-treatment protocols', 'Pre-trip inspection at every SRV depot', 'GDP-compliant pharma lanes']],
+    ['project', 'crane', 'Project Cargo & Break-bulk', 'Engineered transport for heavy-lift, oversized and complex shipments: refinery modules, turbines, transformers and rolling stock.',
+      ['Route surveys, lashing and stowage engineering', 'Charter of multipurpose and heavy-lift vessels', 'Flat-rack and open-top solutions on liner services', 'On-site supervision from loading to installation']],
+    ['seaair', 'plane', 'Sea-Air via Dubai', 'Combine ocean freight to Jebel Ali with air freight from Dubai’s airports, at about half the cost of all-air and half the time of all-ocean.',
+      ['Asia → Dubai by sea, Dubai → Europe, Africa & CIS by air', 'Bonded transfer through the Dubai Logistics Corridor', 'Typical 12–16 days door-to-door from Asia to Europe', 'Ideal for fashion, electronics and urgent spares']],
+    ['inland', 'truck', 'Inland, Rail & Last Mile', 'Door-to-door haulage and rail connections to inland container depots, so your cargo moves on one bill of lading from origin to destination.',
+      ['Double-stack rail from Mundra and Nhava Sheva to North India ICDs', 'Bonded trucking across the GCC', 'European barge and rail from Rotterdam, Antwerp and Hamburg', 'US intermodal from Los Angeles/Long Beach and New York']],
+    ['customs', 'doc', 'Customs Brokerage & Trade Compliance', 'Licensed customs brokers in every SRV country file entries, classify goods and manage duties, so your cargo clears without delay.',
+      ['Import/export declarations and pre-arrival processing', 'HS classification, origin and valuation advisory', 'ICS2, AMS, ENS, ACI and ISF security filings', 'Duty drawback and FTA optimisation (CEPA, India–UAE, ASEAN)']],
+    ['warehousing', 'warehouse', 'Warehousing & Distribution', 'Contract logistics in free zones and near ports: storage, pick-and-pack, kitting and regional distribution.',
+      ['Free-zone warehouses at JAFZA, Dubai and Chennai', 'Bonded and temperature-controlled storage', 'WMS with live inventory visibility', 'E-commerce fulfilment and returns']],
+    ['digital', 'gauge', 'Digital Solutions', 'Book, track, document and pay online, or connect your systems directly to SRV through APIs and EDI.',
+      ['Instant quotes and online booking', 'Real-time track & trace with milestone alerts', 'e-B/L, digital invoices and online payments', 'API / EDI (IFTMIN, IFTSTA, COPRAR) integration']]
+  ];
+  $('#blocks').innerHTML = B.map(([id, ic, t, d, pts], i) => `<div class="service-block card svc-row" id="${id}" style="margin-bottom:24px">
+      <div class="icon-badge ${['', 'teal', 'orange'][i % 3]}" style="width:72px;height:72px;margin:0">${icon(ic)}</div>
+      <div><h2 style="font-size:1.6rem">${t}</h2><p class="lead" style="font-size:1.02rem">${d}</p>
+      <ul class="feature-list" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">${pts.map((p) => `<li>${icon('checkCircle')}<span>${p}</span></li>`).join('')}</ul>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-primary btn-sm" href="quote.html">Get a quote</a><a class="btn btn-outline btn-sm" href="contact.html?topic=${encodeURIComponent(t)}">Talk to a specialist</a></div></div></div>`).join('');
+
+  $('#linerGrid').innerHTML = D.SERVICES.map((s) => {
+    const ports = s.rotation.filter((k) => k[0] !== '~');
+    const uniq = ports.filter((p, i) => ports.indexOf(p) === i);
+    const m = SRV.SVC_META[s.code];
+    return `<div class="card"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:8px"><span class="badge" style="background:${s.color};color:#fff">${s.code}</span><span class="small muted">Weekly · ${SRV.DOW[s.day]} · ~${m.roundDays}-day round trip</span></div>
+      <h3 style="margin-bottom:6px">${esc(s.name)}</h3><p class="muted small">${esc(s.desc)}</p>
+      <div class="small" style="line-height:1.9">${uniq.map((p) => `<a href="network.html#${SRV.port(p).cc}" title="${esc(SRV.portLabel(p))}">${esc(SRV.port(p).city)}</a>`).join(' → ')}</div>
+      <div style="margin-top:14px"><a class="link-arrow small" href="schedules.html?from=${uniq[0]}&to=${uniq[uniq.length - 1]}">View sailings</a></div></div>`;
+  }).join('');
+
+  $('#eqTable').innerHTML = D.CONTAINERS.map((c) => `<tr><td><span class="badge">${c.code}</span></td><td><strong>${esc(c.name)}</strong>${c.reefer ? ' <span class="badge teal">Reefer</span>' : ''}</td><td>${c.teu}</td><td>${SRV.num(c.maxKg)} kg</td><td>${c.cbm ? c.cbm + ' m³' : 'Open / OOG'}</td><td><a class="small" href="quote.html?type=${c.code}">Quote →</a></td></tr>`).join('');
+
+  const I = [['leaf', 'Agriculture & Food'], ['snow', 'Pharma & Healthcare'], ['box', 'Retail & Fashion'], ['gauge', 'Automotive'], ['crane', 'Energy & Projects'], ['layers', 'Chemicals'], ['chart', 'Electronics & High-tech'], ['building', 'Construction Materials']];
+  $('#industries').innerHTML = I.map(([ic, t]) => `<div class="card hover" style="text-align:center"><div class="icon-badge teal" style="margin:0 auto 14px">${icon(ic)}</div><h4 style="margin:0">${t}</h4></div>`).join('');
+  const S = [['dollar', 'Quote', 'Instant online price or a tailored contract rate.'], ['calendar', 'Book', 'Confirm a weekly sailing and receive your booking number.'], ['box', 'Load', 'Empty release, stuffing, VGM and gate-in at the terminal.'], ['ship', 'Sail', 'Live tracking with milestone alerts from the Chennai OMC.'], ['checkCircle', 'Deliver', 'Customs release, haulage and proof of delivery.']];
+  $('#steps').innerHTML = S.map(([ic, t, d], i) => `<div class="card"><div class="icon-badge ${i % 2 ? 'teal' : ''}">${icon(ic)}</div><div class="small muted">Step ${i + 1}</div><h4>${t}</h4><p class="muted small" style="margin:0">${d}</p></div>`).join('');
+};
+</script>
+</body>
+</html>

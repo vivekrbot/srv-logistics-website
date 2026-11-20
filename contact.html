@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact Us | SRV Logistics &amp; Shipping</title>
+  <meta name="description" content="Contact SRV Logistics & Shipping: Global HQ at Jebel Ali, Dubai, Operations & Management Centre at Chennai Port, and offices in 32 countries.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="contact">
+<main id="main">
+  <section class="page-hero">
+    <div class="container">
+      <div class="crumbs"><a href="index.html">Home</a> / Contact</div>
+      <h1>Contact SRV</h1>
+      <p>Our teams in Dubai, Chennai and 30 other countries are ready to help with quotes, bookings, documentation and shipment support.</p>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container grid g-2" id="hq"></div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container quote-layout">
+      <div class="panel">
+        <div class="panel-head"><h3>Send us a message</h3><span class="small muted">We reply within 1 business day</span></div>
+        <div class="panel-body">
+          <form id="cForm" class="form-grid" novalidate>
+            <div class="field"><label for="cType">Enquiry type</label><select id="cType" name="type" class="input" data-req>
+              <option value="">Select…</option><option>New quote / sales</option><option>Booking &amp; documentation</option><option>Shipment status &amp; delays</option><option>Invoices &amp; payments</option><option>Claims</option><option>Partnerships &amp; agencies</option><option>Media &amp; investor relations</option><option>Other</option></select></div>
+            <div class="field"><label for="cOffice">Preferred office</label><select id="cOffice" name="office" class="input"></select></div>
+            <div class="field"><label for="cName">Full name</label><input id="cName" name="name" class="input" data-req autocomplete="name"></div>
+            <div class="field"><label for="cCo">Company</label><input id="cCo" name="company" class="input" autocomplete="organization"></div>
+            <div class="field"><label for="cEmail">Email</label><input id="cEmail" name="email" type="email" class="input" data-req autocomplete="email"></div>
+            <div class="field"><label for="cPhone">Phone</label><input id="cPhone" name="phone" class="input" data-pattern="^[+0-9 ()-]{7,20}$" data-msg="Enter a valid phone number." autocomplete="tel"></div>
+            <div class="field full"><label for="cRef">Booking / B/L / container reference (optional)</label><input id="cRef" name="ref" class="input mono"></div>
+            <div class="field full"><label for="cMsg">Message</label><textarea id="cMsg" name="message" class="input" data-req></textarea></div>
+            <div class="field full"><label class="check"><input type="checkbox" name="consent" data-req> I agree that SRV may use my details to respond to this enquiry (<a href="legal.html#privacy">privacy notice</a>).</label></div>
+            <div class="full"><button class="btn btn-primary" type="submit"><span data-icon="send"></span>Send message</button></div>
+          </form>
+        </div>
+      </div>
+      <aside class="sticky-side grid" style="gap:16px">
+        <div class="card"><div class="icon-badge orange" data-icon="phone"></div><h4>24×7 Operations Desk</h4><p class="small muted">Urgent shipment and vessel matters, handled by the Chennai OMC.</p><p style="margin:0"><strong id="omcPhone"></strong><br><a id="omcMail"></a></p></div>
+        <div class="card"><div class="icon-badge" data-icon="mail"></div><h4>Customer support</h4><p class="small muted">Bookings, documentation and portal help.</p><p style="margin:0"><strong id="supPhone"></strong><br><a id="supMail"></a></p></div>
+        <div class="card"><div class="icon-badge teal" data-icon="doc"></div><h4>Common questions</h4>
+          <details><summary class="small" style="cursor:pointer;font-weight:600">How do I get a delivery order?</summary><p class="small muted">Once freight is paid and the original or e-B/L is surrendered, the destination office issues the DO electronically.</p></details>
+          <details><summary class="small" style="cursor:pointer;font-weight:600">What are your free-time terms?</summary><p class="small muted">Standard combined free time is 7 days at origin and 7 at destination. Extended packages are available when you quote.</p></details>
+          <details><summary class="small" style="cursor:pointer;font-weight:600">How do I raise a cargo claim?</summary><p class="small muted">Select “Claims” above and include your B/L number, survey report and photos. Claims must be notified within 3 days of delivery.</p></details>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:20px">
+        <div><span class="eyebrow">Office directory</span><h2 style="margin:0">All SRV offices</h2></div>
+        <input id="dirQ" class="input" placeholder="Filter by country or city…" style="max-width:320px">
+      </div>
+      <div class="table-wrap"><table class="table"><thead><tr><th>Office</th><th>Country</th><th>Address</th><th>Phone</th><th>Email</th></tr></thead><tbody id="dir"></tbody></table></div>
+    </div>
+  </section>
+</main>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/core.js"></script>
+<script>
+SRV.init = function () {
+  const { $, esc, icon } = SRV; const S = SRV_DATA.SITE;
+  $('#hq').innerHTML = SRV.officeCard(SRV.country('AE').offices[0], true) + SRV.officeCard(SRV.country('IN').offices[0], false);
+  $('#omcPhone').innerHTML = SRV.tel(S.omc.phone); $('#omcMail').textContent = S.omc.email; $('#omcMail').href = 'mailto:' + S.omc.email;
+  $('#supPhone').innerHTML = SRV.tel(S.support.phone); $('#supMail').textContent = S.support.email; $('#supMail').href = 'mailto:' + S.support.email;
+  const offices = SRV.allOffices();
+  $('#cOffice').innerHTML = '<option value="">Nearest office (auto)</option>' + SRV_DATA.REGIONS.map((r) => `<optgroup label="${r}">${offices.filter((o) => o.region === r).map((o) => `<option>${esc(o.name)}</option>`).join('')}</optgroup>`).join('');
+  if (SRV.qs('office')) $('#cOffice').value = SRV.qs('office');
+  if (SRV.qs('topic')) { $('#cType').value = 'New quote / sales'; $('#cMsg').value = `I would like to know more about: ${SRV.qs('topic')}\n\n`; }
+  const prof = SRV.store.get('profile', {}) || {};
+  ['name', 'company', 'email', 'phone'].forEach((k) => { if (prof[k]) $(`#cForm [name=${k}]`).value = prof[k]; });
+
+  $('#cForm').addEventListener('submit', (e) => {
+    e.preventDefault(); const f = e.target; if (!SRV.validate(f)) return;
+    const d = SRV.formData(f); const ticket = SRV.refNo('SR-', 7);
+    const office = d.office || 'SRV Operations & Management Centre – Chennai Port';
+    SRV.store.push('enquiries', Object.assign({ ticket, at: Date.now(), office }, d));
+    f.closest('.panel-body').innerHTML = `<div style="text-align:center;padding:24px 0"><div class="icon-badge teal" style="width:72px;height:72px;margin:0 auto 16px">${icon('checkCircle')}</div><h2 style="font-size:1.5rem">Thank you, ${esc(d.name)}.</h2><p class="muted">Your enquiry has been logged as <strong class="mono">${ticket}</strong> and routed to <strong>${esc(office)}</strong>. A confirmation will be sent to ${esc(d.email)}.</p><a class="btn btn-outline" href="contact.html">Send another message</a></div>`;
+    window.scrollTo({ top: 200 });
+  });
+
+  function dir() {
+    const q = $('#dirQ').value.trim().toLowerCase();
+    $('#dir').innerHTML = offices.filter((o) => !q || `${o.name} ${o.country} ${o.city} ${o.address}`.toLowerCase().includes(q))
+      .map((o) => `<tr><td><strong>${esc(o.name)}</strong><div class="tiny muted">${esc(o.type)}</div></td><td class="nowrap"><span class="cc">${o.cc}</span> ${esc(o.country)}</td><td class="small">${esc(o.address)}</td><td class="nowrap small">${SRV.tel(o.phone)}</td><td class="small"><a href="mailto:${o.email}">${esc(o.email)}</a></td></tr>`).join('') || '<tr><td colspan="5" class="muted">No offices match.</td></tr>';
+  }
+  $('#dirQ').addEventListener('input', dir); dir();
+};
+</script>
+</body>
+</html>

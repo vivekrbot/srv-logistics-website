@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Careers | SRV Logistics &amp; Shipping</title>
+  <meta name="description" content="Careers at SRV Logistics & Shipping: open roles in Dubai, Chennai and 30 more countries.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="careers">
+<main id="main">
+  <section class="page-hero">
+    <div class="container">
+      <div class="crumbs"><a href="index.html">Home</a> / Company / Careers</div>
+      <h1>Build a career that moves the world</h1>
+      <p>More than 3,400 colleagues in 32 countries. Join us at sea, in port, in the Chennai Operations Centre or at our Dubai headquarters.</p>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container">
+      <div class="grid g-4">
+        <div class="card"><div class="icon-badge" data-icon="globe"></div><h4>Global mobility</h4><p class="muted small">Rotations between Dubai, Chennai, Singapore and Rotterdam for high performers.</p></div>
+        <div class="card"><div class="icon-badge teal" data-icon="star"></div><h4>Learning academy</h4><p class="muted small">SRV Maritime Academy courses, ICS certification support and leadership programmes.</p></div>
+        <div class="card"><div class="icon-badge orange" data-icon="shield"></div><h4>Health &amp; wellbeing</h4><p class="muted small">Comprehensive family medical cover, wellness days and an employee assistance programme.</p></div>
+        <div class="card"><div class="icon-badge" data-icon="users"></div><h4>Inclusive culture</h4><p class="muted small">40+ nationalities and a strong commitment to equal opportunity.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm" id="jobs">
+    <div class="container">
+      <div class="panel" style="margin-bottom:20px"><div class="panel-body" style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:14px" id="jobFilters">
+        <div class="field"><label for="jq">Search roles</label><input id="jq" class="input" placeholder="Job title or keyword"></div>
+        <div class="field"><label for="jd">Department</label><select id="jd" class="input"></select></div>
+        <div class="field"><label for="jl">Location</label><select id="jl" class="input"></select></div>
+      </div></div>
+      <div class="small muted" id="jobCount" style="margin-bottom:12px"></div>
+      <div class="grid g-2" id="jobList"></div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container split">
+      <div><span class="eyebrow">Graduate programme</span><h2>SRV Future Leaders</h2><p class="lead">An 18-month rotational programme across operations, commercial, finance and technology, based at the Chennai OMC with a placement at Dubai HQ.</p><a class="btn btn-primary" href="#" id="gradApply">Apply for the 2027 intake</a></div>
+      <div class="timeline">
+        <div class="tl-item done"><div class="tl-title">Months 1–6 · Operations</div><p class="small muted">Vessel planning, equipment control and the global control tower at Chennai Port.</p></div>
+        <div class="tl-item done"><div class="tl-title">Months 7–12 · Commercial</div><p class="small muted">Pricing, key accounts and customer experience at Dubai HQ.</p></div>
+        <div class="tl-item current"><div class="tl-title">Months 13–18 · Specialisation</div><p class="small muted">Finance, technology, sustainability or an international branch posting.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/core.js"></script>
+<script>
+SRV.init = function () {
+  const { $, esc, icon } = SRV; const J = SRV_DATA.JOBS;
+  if (window.innerWidth < 760) $('#jobFilters').style.gridTemplateColumns = '1fr';
+  const opts = (arr, all) => `<option value="">${all}</option>` + [...new Set(arr)].sort().map((x) => `<option>${esc(x)}</option>`).join('');
+  $('#jd').innerHTML = opts(J.map((j) => j.dept), 'All departments');
+  $('#jl').innerHTML = opts(J.map((j) => j.location), 'All locations');
+
+  function render() {
+    const q = $('#jq').value.trim().toLowerCase(), d = $('#jd').value, l = $('#jl').value;
+    const list = J.filter((j) => (!d || j.dept === d) && (!l || j.location === l) && (!q || `${j.title} ${j.desc} ${j.dept}`.toLowerCase().includes(q)));
+    $('#jobCount').textContent = `${list.length} open ${list.length === 1 ? 'position' : 'positions'}`;
+    $('#jobList').innerHTML = list.length ? list.map((j) => `<div class="card hover"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><span class="badge">${esc(j.dept)}</span><span class="tiny muted">Posted ${SRV.fmtDate(SRV.parseISO(j.posted))}</span></div>
+      <h3 style="margin:12px 0 6px">${esc(j.title)}</h3><div class="small muted" style="margin-bottom:10px">${icon('pin').replace('<svg ', '<svg style="width:14px;height:14px;vertical-align:-2px" ')} ${esc(j.location)} · ${esc(j.type)} · ${esc(j.exp)}</div>
+      <p class="small">${esc(j.desc)}</p><button class="btn btn-outline btn-sm" data-job="${j.id}">View &amp; apply</button></div>`).join('')
+      : `<div class="empty card" style="grid-column:1/-1">${icon('briefcase')}<div>No roles match your filters. Send us your CV at <a href="mailto:careers@srvlogistics.com">careers@srvlogistics.com</a>.</div></div>`;
+  }
+
+  function apply(job) {
+    const applied = SRV.store.get('applications', []).some((a) => a.job === job.id);
+    const m = SRV.modal(esc(job.title), `<div class="small muted" style="margin-bottom:10px">${esc(job.id)} · ${esc(job.location)} · ${esc(job.dept)} · ${esc(job.exp)}</div><p>${esc(job.desc)}</p>
+      ${applied ? `<div class="alert info" style="margin-bottom:16px">${icon('info')}<div>You have already applied for this role from this browser.</div></div>` : ''}
+      <form id="appForm" class="form-grid" novalidate>
+        <div class="field"><label for="aName">Full name</label><input id="aName" name="name" class="input" data-req></div>
+        <div class="field"><label for="aEmail">Email</label><input id="aEmail" name="email" type="email" class="input" data-req></div>
+        <div class="field"><label for="aPhone">Phone</label><input id="aPhone" name="phone" class="input" data-req data-pattern="^[+0-9 ()-]{7,20}$" data-msg="Enter a valid phone number."></div>
+        <div class="field"><label for="aLoc">Current location</label><input id="aLoc" name="location" class="input" data-req></div>
+        <div class="field"><label for="aExp">Years of experience</label><input id="aExp" name="experience" type="number" min="0" class="input" data-req></div>
+        <div class="field"><label for="aLi">LinkedIn profile (optional)</label><input id="aLi" name="linkedin" class="input" placeholder="https://linkedin.com/in/…" data-pattern="^https?://" data-msg="Enter a full URL starting with http(s)://"></div>
+        <div class="field full"><label for="aCv">CV / résumé (PDF or DOC, max 5 MB)</label><input id="aCv" name="cv" type="file" class="input" accept=".pdf,.doc,.docx" data-req></div>
+        <div class="field full"><label for="aCover">Why SRV? (optional)</label><textarea id="aCover" name="cover" class="input" style="min-height:90px"></textarea></div>
+        <div class="field full"><label class="check"><input type="checkbox" data-req name="consent"> I consent to SRV processing my data for recruitment purposes as described in the <a href="legal.html#privacy" target="_blank">privacy notice</a>.</label></div>
+        <div class="full" style="display:flex;justify-content:flex-end;gap:10px"><button type="button" class="btn btn-outline" onclick="SRV.closeModal()">Cancel</button><button class="btn btn-primary" type="submit">Submit application</button></div>
+      </form>`);
+    m.querySelector('#appForm').addEventListener('submit', (e) => {
+      e.preventDefault(); const f = e.target; if (!SRV.validate(f)) return;
+      const file = f.cv.files[0];
+      if (file && file.size > 5 * 1024 * 1024) { SRV.toast('Your CV must be 5 MB or smaller.', 'error'); return; }
+      const d = SRV.formData(f); const ref = SRV.refNo('APP-', 6);
+      SRV.store.push('applications', { ref, job: job.id, title: job.title, name: d.name, email: d.email, cv: file ? file.name : '', at: Date.now() });
+      m.querySelector('.modal-body').innerHTML = `<div style="text-align:center;padding:16px 0"><div class="icon-badge teal" style="width:72px;height:72px;margin:0 auto 16px">${icon('checkCircle')}</div><h2 style="font-size:1.5rem">Application received</h2><p class="muted">Thank you, ${esc(d.name)}. Your reference is <strong class="mono">${ref}</strong>. Our talent team will review your profile and contact you at ${esc(d.email)}.</p><button class="btn btn-blue" onclick="SRV.closeModal()">Close</button></div>`;
+    });
+  }
+
+  ['#jq', '#jd', '#jl'].forEach((s) => $(s).addEventListener('input', render));
+  $('#jobList').addEventListener('click', (e) => { const b = e.target.closest('[data-job]'); if (b) apply(J.find((j) => j.id === b.dataset.job)); });
+  $('#gradApply').addEventListener('click', (e) => { e.preventDefault(); apply(J.find((j) => j.dept === 'Graduate Programme')); });
+  render();
+};
+</script>
+</body>
+</html>

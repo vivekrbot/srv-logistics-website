@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Instant Quote &amp; Booking | SRV Logistics &amp; Shipping</title>
+  <meta name="description" content="Get an instant all-in ocean freight price and book your container online with SRV Logistics & Shipping.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="quote">
+<main id="main">
+  <section class="page-hero">
+    <div class="container">
+      <div class="crumbs"><a href="index.html">Home</a> / Digital Tools / Instant Quote</div>
+      <h1>Instant quote &amp; online booking</h1>
+      <p>All-in prices, including surcharges, with a confirmed weekly sailing. Save the quote or book in one click.</p>
+    </div>
+  </section>
+
+  <section class="section-sm" style="padding-bottom:88px">
+    <div class="container quote-layout">
+      <form id="qForm" novalidate>
+        <div class="panel" style="margin-bottom:20px">
+          <div class="panel-head"><h3><span class="badge">1</span> Route &amp; timing</h3></div>
+          <div class="panel-body form-grid">
+            <div class="field"><label for="from">Origin port</label><select id="from" name="from" class="input" data-req></select></div>
+            <div class="field"><label for="to">Destination port</label><select id="to" name="to" class="input" data-req></select></div>
+            <div class="field"><label for="date">Cargo ready date</label><input type="date" id="date" name="date" class="input" data-req></div>
+            <div class="field"><label for="level">Service level</label><select id="level" name="level" class="input">
+              <option value="standard">Standard</option><option value="priority">Priority: guaranteed loading (+15%)</option><option value="eco">GreenShip: low-carbon fuel (+6%)</option></select></div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-bottom:20px">
+          <div class="panel-head"><h3><span class="badge">2</span> Cargo</h3>
+            <div class="chips" role="radiogroup" aria-label="Load type"><button type="button" class="chip active" data-mode="FCL">Full container (FCL)</button><button type="button" class="chip" data-mode="LCL">Less than container (LCL)</button></div></div>
+          <div class="panel-body form-grid">
+            <div class="field fcl"><label for="type">Equipment</label><select id="type" name="type" class="input"></select></div>
+            <div class="field fcl"><label for="qty">Number of containers</label><input type="number" id="qty" name="qty" class="input" value="1" min="1" max="99" data-req></div>
+            <div class="field lcl" hidden><label for="cbm">Volume (m³)</label><input type="number" id="cbm" name="cbm" class="input" value="5" min="0.5" step="0.5"></div>
+            <div class="field lcl" hidden><label for="kg">Total weight (kg)</label><input type="number" id="kg" name="kg" class="input" value="1500" min="1"></div>
+            <div class="field"><label for="commodity">Commodity</label><input id="commodity" name="commodity" class="input" placeholder="e.g. Cotton yarn, HS 5205" data-req></div>
+            <div class="field"><label for="value">Cargo value (USD), for insurance</label><input type="number" id="value" name="value" class="input" value="25000" min="0"></div>
+            <div class="field full"><label class="check"><input type="checkbox" id="haz" name="haz"> Hazardous cargo (IMDG class). Our DG desk will verify the declaration.</label></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h3><span class="badge">3</span> Add-on services</h3></div>
+          <div class="panel-body grid g-2" style="gap:14px">
+            <label class="check"><input type="checkbox" name="pickup" id="pickup"> <span><strong>Origin pick-up</strong><br><span class="small muted">Trucking from your premises to the terminal</span></span></label>
+            <label class="check"><input type="checkbox" name="delivery" id="delivery"> <span><strong>Destination delivery</strong><br><span class="small muted">Door delivery from the port of discharge</span></span></label>
+            <label class="check"><input type="checkbox" name="expcc" id="expcc" checked> <span><strong>Export customs clearance</strong><br><span class="small muted">Shipping bill / export declaration</span></span></label>
+            <label class="check"><input type="checkbox" name="impcc" id="impcc"> <span><strong>Import customs clearance</strong><br><span class="small muted">Bill of entry / import declaration</span></span></label>
+            <label class="check"><input type="checkbox" name="ins" id="ins"> <span><strong>Cargo insurance</strong><br><span class="small muted">All-risk, 0.35% of cargo value</span></span></label>
+            <label class="check"><input type="checkbox" name="free" id="free"> <span><strong>Extended free time</strong><br><span class="small muted">+7 days combined demurrage &amp; detention</span></span></label>
+          </div>
+        </div>
+      </form>
+
+      <aside class="sticky-side">
+        <div class="panel">
+          <div class="panel-head"><h3>Your quote</h3><span class="badge green" id="validity">Valid 14 days</span></div>
+          <div class="panel-body" id="summary"></div>
+        </div>
+        <div class="alert info" style="margin-top:16px"><span data-icon="info"></span><div class="small">Prices in USD, excluding destination duties and taxes. Subject to equipment and space availability at booking confirmation.</div></div>
+        <div class="panel" style="margin-top:16px"><div class="panel-head"><h3>Saved quotes</h3><a class="small" href="portal.html">Open portal →</a></div><div class="panel-body" id="saved" style="padding:12px 24px"></div></div>
+      </aside>
+    </div>
+  </section>
+</main>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/pages/quote.js"></script>
+</body>
+</html>

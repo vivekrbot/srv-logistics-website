@@ -1,0 +1,9 @@
+# Internal QA file, never publish
+SAMPLE-TRACKING-NUMBERS.txt
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+node_modules/

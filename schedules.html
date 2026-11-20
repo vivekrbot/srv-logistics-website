@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sailing Schedules | SRV Logistics &amp; Shipping</title>
+  <meta name="description" content="Point-to-point sailing schedules for SRV liner services: departures, arrivals, transit times, vessels and cut-offs.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="schedules">
+<main id="main">
+  <section class="page-hero">
+    <div class="container">
+      <div class="crumbs"><a href="index.html">Home</a> / Digital Tools / Sailing Schedules</div>
+      <h1>Point-to-point sailing schedules</h1>
+      <p>Find upcoming departures, transit times, vessels and cut-offs between any two ports in the SRV network.</p>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container">
+      <form class="panel no-print" id="schedForm" novalidate>
+        <div class="panel-body">
+          <div class="qt-row" style="grid-template-columns:1fr auto 1fr 180px 140px auto">
+            <div class="field"><label for="from">Port of loading</label><select id="from" name="from" class="input" data-req></select></div>
+            <button type="button" class="btn btn-outline btn-sm" id="swap" aria-label="Swap origin and destination" style="margin-bottom:6px">⇄</button>
+            <div class="field"><label for="to">Port of discharge</label><select id="to" name="to" class="input" data-req></select></div>
+            <div class="field"><label for="date">Earliest departure</label><input type="date" id="date" name="date" class="input" data-req></div>
+            <div class="field"><label for="weeks">Show</label><select id="weeks" name="weeks" class="input"><option value="4">4 weeks</option><option value="6" selected>6 weeks</option><option value="8">8 weeks</option><option value="12">12 weeks</option></select></div>
+            <button class="btn btn-primary" type="submit"><span data-icon="search"></span>Search</button>
+          </div>
+        </div>
+      </form>
+      <div id="directFrom" class="no-print" style="margin-top:16px"></div>
+      <div id="results" style="margin-top:24px"></div>
+      <div id="routeMapWrap" style="margin-top:24px;display:none"><div class="panel"><div class="panel-head"><h3>Route map</h3><span class="small muted" id="routeInfo"></span></div><div class="panel-body" style="padding:0"><div id="routeMap" class="map" style="height:420px;border:0;border-radius:0 0 12px 12px"></div></div></div></div>
+    </div>
+  </section>
+</main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/pages/schedules.js"></script>
+</body>
+</html>
